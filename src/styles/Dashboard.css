@@ -1,0 +1,137 @@
+/* src/styles/Dashboard.css */
+
+.dashboard-container {
+  padding: 20px 40px;
+  font-family: sans-serif;
+  color: #1e293b;
+}
+
+/* Tabs */
+.dashboard-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.dashboard-tab {
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: 0.2s ease-in-out;
+  color: #475569;
+}
+
+.dashboard-tab.active {
+  color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 1.3rem;
+  margin-top: 8px;
+}
+
+.stat-card.blue { background-color: #3b82f6; }
+.stat-card.green { background-color: #10b981; }
+.stat-card.orange { background-color: #f59e0b; }
+.stat-card.purple { background-color: #8b5cf6; }
+
+/* Main Content Grid */
+.main-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.todays-classes, .recent-activity {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.todays-classes h3,
+.recent-activity h3 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #1e40af;
+}
+
+.todays-classes ul,
+.recent-activity ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.todays-classes li,
+.recent-activity li {
+  margin-bottom: 10px;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.quick-actions button {
+  padding: 12px;
+  background-color: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.quick-actions button:hover {
+  background-color: #e0e7ff;
+  color: #1e3a8a;
+}
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 10px;
+  color: #334155;
+}
+
+.dashboard-header h2 {
+  font-size: 1.2rem;
+}
+
+.dashboard-role {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import '../styles/Attendance.css';
 
+
 function Attendance() {
   const [selectedCourse, setSelectedCourse] = useState('All');
   const [selectedPeriod, setSelectedPeriod] = useState('This Month');

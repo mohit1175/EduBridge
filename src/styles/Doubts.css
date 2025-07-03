@@ -1,0 +1,47 @@
+.doubts-page {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .ask-doubt-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  
+  .ask-doubt-form input,
+  .ask-doubt-form textarea {
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  
+  .ask-doubt-form button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .ask-doubt-form button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .submitted-doubts ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .submitted-doubts li {
+    background: #f3f4f6;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  

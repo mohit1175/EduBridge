@@ -1,8 +1,11 @@
 // src/components/DashboardMain.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 
 function DashboardMain({ role }) {
+  const navigate = useNavigate();
+
   const stats = {
     student: [
       { icon: '📘', label: 'Enrolled Courses', value: 5, color: 'blue' },
@@ -26,22 +29,22 @@ function DashboardMain({ role }) {
 
   const quickActions = {
     student: [
-      '📅 View Timetable',
-      '📈 My Attendance',
-      '💬 Ask Doubt',
-      '🎓 View Results'
+      { label: '📅 View Timetable', route: '/home/timetable' },
+      { label: '📈 My Attendance', route: '/home/attendance' },
+      { label: '💬 Ask Doubt', route: '/home/doubts' },
+      { label: '🎓 View Results', route: '/home/exams' }
     ],
     teacher_level2: [
-      '📝 Mark Attendance',
-      '💬 View Doubts',
-      '📅 Manage Schedule',
-      '🎯 Upload Grades'
+      { label: '📝 Mark Attendance', route: '/home/attendance' },
+      { label: '💬 View Doubts', route: '/home/doubts' },
+      { label: '📅 Manage Schedule', route: '/home/timetable' },
+      { label: '🎯 Upload Grades', route: '/home/exams' }
     ],
     teacher_level1: [
-      '👑 Assign Roles',
-      '➕ Add Course',
-      '📊 Generate Report',
-      '📅 Manage Timetable'
+      { label: '👑 Assign Roles', route: '/home/courses' },
+      { label: '➕ Add Course', route: '/home/courses' },
+      { label: '📊 Generate Report', route: '/home/exams' },
+      { label: '📅 Manage Timetable', route: '/home/timetable' }
     ]
   };
 
@@ -83,7 +86,9 @@ function DashboardMain({ role }) {
       {/* Quick Actions */}
       <div className="quick-actions">
         {userActions.map((action, idx) => (
-          <button key={idx}>{action}</button>
+          <button key={idx} onClick={() => navigate(action.route)}>
+            {action.label}
+          </button>
         ))}
       </div>
     </>

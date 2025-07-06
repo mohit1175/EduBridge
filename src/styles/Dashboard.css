@@ -103,7 +103,7 @@
 
 .quick-actions button {
   padding: 12px;
-  background-color: #f1f5f9;
+  background-color: #24619e;
   border: none;
   border-radius: 8px;
   font-size: 0.95rem;
@@ -115,7 +115,7 @@
 
 .quick-actions button:hover {
   background-color: #e0e7ff;
-  color: #1e3a8a;
+  color: #f8faff;
 }
 .dashboard-header {
   display: flex;

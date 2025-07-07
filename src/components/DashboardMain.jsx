@@ -53,6 +53,11 @@ function DashboardMain({ role }) {
 
   return (
     <>
+      {/* Role-specific header */}
+      {role === 'student' && <h2>🎓 Student Dashboard</h2>}
+      {role === 'teacher_level2' && <h2>🧑‍🏫 Teacher Dashboard</h2>}
+      {role === 'teacher_level1' && <h2>👑 HOD Dashboard</h2>}
+
       {/* Stats */}
       <div className="stats-grid">
         {userStats.map((s, i) => (
@@ -63,22 +68,43 @@ function DashboardMain({ role }) {
         ))}
       </div>
 
-      {/* Content Grid */}
+      {/* Content Grid - role specific */}
       <div className="main-content-grid">
-        <div className="todays-classes">
-          <h3>Today's Classes</h3>
-          <ul>
-            <li><strong>10:00 - 11:00</strong> | Math | Room A1</li>
-            <li><strong>11:15 - 12:15</strong> | Science | Room B3</li>
-            <li><strong>2:00 - 3:00</strong> | CS | Room C2</li>
-          </ul>
-        </div>
+        {role === 'student' && (
+          <div className="todays-classes">
+            <h3>Today's Classes</h3>
+            <ul>
+              <li><strong>10:00 - 11:00</strong> | Math | Room A1</li>
+              <li><strong>11:15 - 12:15</strong> | Science | Room B3</li>
+              <li><strong>2:00 - 3:00</strong> | CS | Room C2</li>
+            </ul>
+          </div>
+        )}
+        {role === 'teacher_level2' && (
+          <div className="todays-classes">
+            <h3>Today's Teaching Schedule</h3>
+            <ul>
+              <li><strong>10:00 - 11:00</strong> | Math | Room A1</li>
+              <li><strong>2:00 - 3:00</strong> | CS | Room C2</li>
+            </ul>
+          </div>
+        )}
+        {role === 'teacher_level1' && (
+          <div className="todays-classes">
+            <h3>Management Overview</h3>
+            <ul>
+              <li>🧑‍🏫 Teachers Managed: 5</li>
+              <li>📘 Total Courses: 10</li>
+              <li>📊 Reports Submitted: 8</li>
+            </ul>
+          </div>
+        )}
         <div className="recent-activity">
           <h3>Recent Activity</h3>
           <ul>
-            <li>✅ Attendance marked for CS</li>
-            <li>💬 Doubt answered in Math</li>
-            <li>📊 Report submitted</li>
+            {role === 'student' && <><li>✅ Attendance marked for you</li><li>💬 Doubt answered</li><li>📊 Grade updated</li></>}
+            {role === 'teacher_level2' && <><li>✅ Attendance marked for CS</li><li>💬 Doubt answered in Math</li><li>📝 Papers evaluated</li></>}
+            {role === 'teacher_level1' && <><li>📊 Report submitted</li><li>👑 Role assigned</li><li>➕ Course added</li></>}
           </ul>
         </div>
       </div>

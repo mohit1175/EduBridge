@@ -12,6 +12,15 @@ import '../styles/Dashboard.css';
 function Dashboard({ role }) {
   const username = localStorage.getItem('username') || 'User';
 
+  const roleClass =
+    role === 'student' ? 'dashboard-student' :
+    role === 'teacher_level2' ? 'dashboard-teacher' :
+    role === 'teacher_level1' ? 'dashboard-hod' : '';
+  const headerClass =
+    role === 'student' ? 'dashboard-header student' :
+    role === 'teacher_level2' ? 'dashboard-header teacher' :
+    role === 'teacher_level1' ? 'dashboard-header hod' : 'dashboard-header';
+
   const tabs = [
     { name: 'Dashboard', path: '/home/dashboard' },
     { name: 'Courses', path: '/home/courses' },
@@ -22,9 +31,9 @@ function Dashboard({ role }) {
   ];
 
   return (
-    <div className="dashboard-container">
+    <div className={`dashboard-container ${roleClass}`}>
       {/* Username display */}
-      <div className="dashboard-header">
+      <div className={headerClass}>
         <h2>📘 Welcome, {username}!</h2>
         <span className="dashboard-role">Role: {role}</span>
       </div>

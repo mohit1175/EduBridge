@@ -4,6 +4,10 @@ import TimetableBuilder from './TimetableBuilder';
 
 function Timetable() {
   const role = localStorage.getItem('userRole');
+  const roleClass =
+    role === 'student' ? 'dashboard-student' :
+    role === 'teacher_level2' ? 'dashboard-teacher' :
+    role === 'teacher_level1' ? 'dashboard-hod' : '';
   const [config, setConfig] = useState(null);
   const [entries, setEntries] = useState([]);
   const [selectedCells, setSelectedCells] = useState([]);
@@ -18,7 +22,13 @@ function Timetable() {
     setLoading(false); // ✅ ensure we delay render until storage check
   }, []);
 
-  // Save entries if they change
+  // Save config and entries if they change (for all roles)
+  useEffect(() => {
+    if (config) {
+      localStorage.setItem('timetableConfig', JSON.stringify(config));
+    }
+  }, [config]);
+
   useEffect(() => {
     localStorage.setItem('timetableEntries', JSON.stringify(entries));
   }, [entries]);
@@ -59,86 +69,88 @@ function Timetable() {
   };
 
   // ✅ FIX: Show loading or wait for localStorage before returning
-  if (loading) return <p style={{ padding: '20px' }}>Loading timetable...</p>;
+  if (loading) return <div className={roleClass} style={{ minHeight: '100vh' }}><p style={{ padding: '20px' }}>Loading timetable...</p></div>;
 
   if (!config) {
     return role === 'teacher_level1'
-      ? <TimetableBuilder onGridGenerate={handleGridGenerate} />
-      : <p style={{ padding: '20px' }}>Timetable not created yet by HOD.</p>;
+      ? <div className={roleClass} style={{ minHeight: '100vh' }}><TimetableBuilder onGridGenerate={handleGridGenerate} /></div>
+      : <div className={roleClass} style={{ minHeight: '100vh' }}><p style={{ padding: '20px' }}>Timetable not created yet by HOD.</p></div>;
   }
 
   const { timeSlots, days, recessPeriods } = config;
 
   return (
-    <div className="timetable-modern">
-      <div className="timetable-header">
-        <h2>📅 Weekly Timetable</h2>
-      </div>
-
-      <div className="timetable-table">
-        <div className="timetable-row timetable-head">
-          <div className="timetable-time">Time</div>
-          {days.map((day) => (
-            <div key={day} className="timetable-day-col">{day}</div>
-          ))}
+    <div className={roleClass} style={{ minHeight: '100vh' }}>
+      <div className="timetable-modern">
+        <div className="timetable-header">
+          <h2>📅 Weekly Timetable</h2>
         </div>
 
-        {timeSlots.map((time) => {
-          const isRecess = isRecessTime(time, recessPeriods);
-          return (
-            <div key={time} className={`timetable-row ${isRecess ? 'recess-row' : ''}`}>
-              <div className="timetable-time">{time}</div>
-              {days.map((day) => {
-                const key = `${day}_${time}`;
-                if (isRecess) {
+        <div className="timetable-table">
+          <div className="timetable-row timetable-head">
+            <div className="timetable-time">Time</div>
+            {days.map((day) => (
+              <div key={day} className="timetable-day-col">{day}</div>
+            ))}
+          </div>
+
+          {timeSlots.map((time) => {
+            const isRecess = isRecessTime(time, recessPeriods);
+            return (
+              <div key={time} className={`timetable-row ${isRecess ? 'recess-row' : ''}`}>
+                <div className="timetable-time">{time}</div>
+                {days.map((day) => {
+                  const key = `${day}_${time}`;
+                  if (isRecess) {
+                    return (
+                      <div key={key} className="timetable-cell recess-cell">
+                        RECESS
+                      </div>
+                    );
+                  }
+                  const match = entries.find(e => e.day === day && e.time === time);
+                  const isSelected = selectedCells.includes(key);
                   return (
-                    <div key={key} className="timetable-cell recess-cell">
-                      RECESS
+                    <div
+                      key={key}
+                      className={`timetable-cell ${isSelected ? 'selected-cell' : ''}`}
+                      onClick={() => role === 'teacher_level1' && toggleCellSelect(day, time)}
+                    >
+                      {match ? (
+                        <div className="class-card">
+                          <div className="course-name">{match.course}</div>
+                          <div className="teacher-name">👤 {match.teacher}</div>
+                          <div className="room-name">🏫 {match.room}</div>
+                        </div>
+                      ) : null}
                     </div>
                   );
-                }
-                const match = entries.find(e => e.day === day && e.time === time);
-                const isSelected = selectedCells.includes(key);
-                return (
-                  <div
-                    key={key}
-                    className={`timetable-cell ${isSelected ? 'selected-cell' : ''}`}
-                    onClick={() => role === 'teacher_level1' && toggleCellSelect(day, time)}
-                  >
-                    {match ? (
-                      <div className="class-card">
-                        <div className="course-name">{match.course}</div>
-                        <div className="teacher-name">👤 {match.teacher}</div>
-                        <div className="room-name">🏫 {match.room}</div>
-                      </div>
-                    ) : null}
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Assignment Form */}
-      {role === 'teacher_level1' && selectedCells.length > 0 && (
-        <div className="assign-box">
-          <h4>Assign to {selectedCells.length} cell(s)</h4>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const form = e.target;
-              assignToSelection(form.course.value, form.teacher.value, form.room.value);
-              form.reset();
-            }}
-          >
-            <input name="course" placeholder="Course" required />
-            <input name="teacher" placeholder="Teacher" required />
-            <input name="room" placeholder="Room" required />
-            <button type="submit">Assign</button>
-          </form>
+                })}
+              </div>
+            );
+          })}
         </div>
-      )}
+
+        {/* Assignment Form - only for HOD */}
+        {role === 'teacher_level1' && selectedCells.length > 0 && (
+          <div className="assign-box">
+            <h4>Assign to {selectedCells.length} cell(s)</h4>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.target;
+                assignToSelection(form.course.value, form.teacher.value, form.room.value);
+                form.reset();
+              }}
+            >
+              <input name="course" placeholder="Course" required />
+              <input name="teacher" placeholder="Teacher" required />
+              <input name="room" placeholder="Room" required />
+              <button type="submit">Assign</button>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

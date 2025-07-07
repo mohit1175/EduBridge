@@ -21,7 +21,13 @@
     color: white;
     font-size: 0.95rem;
     font-weight: 500;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.10);
   }
   
   .stat-card strong {
@@ -68,6 +74,11 @@
   .attendance-records table {
     width: 100%;
     border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s;
   }
   
   .attendance-records th,
@@ -75,6 +86,10 @@
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .attendance-records tr:hover {
+    background: #f1f5f9;
   }
   
   .badge {
@@ -87,4 +102,29 @@
   .badge.green { background-color: #10b981; }
   .badge.red { background-color: #ef4444; }
   .badge.orange { background-color: #f97316; }
+  
+  /* Role-based attendance backgrounds */
+  .attendance-student {
+    background: linear-gradient(120deg, #e0f2fe 0%, #f0f9ff 100%);
+  }
+  .attendance-teacher {
+    background: linear-gradient(120deg, #e6fbe8 0%, #f0fff4 100%);
+  }
+  .attendance-hod {
+    background: linear-gradient(120deg, #ede9fe 0%, #f5f3ff 100%);
+  }
+  
+  /* Role-based badge and progress bar colors */
+  .attendance-student .badge.green,
+  .attendance-student .progress-fill {
+    background-color: #2563eb;
+  }
+  .attendance-teacher .badge.green,
+  .attendance-teacher .progress-fill {
+    background-color: #059669;
+  }
+  .attendance-hod .badge.green,
+  .attendance-hod .progress-fill {
+    background-color: #7c3aed;
+  }
   

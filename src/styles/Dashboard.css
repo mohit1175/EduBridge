@@ -44,7 +44,13 @@
   color: white;
   font-size: 0.95rem;
   font-weight: 500;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.10);
 }
 
 .stat-card strong {
@@ -109,14 +115,28 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  color: #f8fafc;
 }
 
 .quick-actions button:hover {
-  background-color: #8b5cf6;
-  color: #f8faff;
+  background: #1e40af;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(60,60,180,0.10);
 }
+
+/* Role-based dashboard backgrounds */
+.dashboard-student {
+  background: linear-gradient(120deg, #e0f2fe 0%, #f0f9ff 100%);
+}
+.dashboard-teacher {
+  background: linear-gradient(120deg, #e6fbe8 0%, #f0fff4 100%);
+}
+.dashboard-hod {
+  background: linear-gradient(120deg, #ede9fe 0%, #f5f3ff 100%);
+}
+
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -126,6 +146,16 @@
   color: #334155;
 }
 
+.dashboard-header.student {
+  color: #1e40af;
+}
+.dashboard-header.teacher {
+  color: #059669;
+}
+.dashboard-header.hod {
+  color: #7c3aed;
+}
+
 .dashboard-header h2 {
   font-size: 1.2rem;
 }
@@ -133,5 +163,23 @@
 .dashboard-role {
   font-size: 0.9rem;
   color: #64748b;
+}
+
+/* Student accent */
+.dashboard-student .stat-card.blue,
+.dashboard-student .quick-actions button {
+  background-color: #2563eb;
+}
+
+/* Teacher accent */
+.dashboard-teacher .stat-card.green,
+.dashboard-teacher .quick-actions button {
+  background-color: #059669;
+}
+
+/* HOD accent */
+.dashboard-hod .stat-card.purple,
+.dashboard-hod .quick-actions button {
+  background-color: #7c3aed;
 }
 

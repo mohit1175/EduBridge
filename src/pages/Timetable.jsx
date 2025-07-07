@@ -68,6 +68,17 @@ function Timetable() {
     return recessPeriods.some(r => time >= r.start && time < r.end);
   };
 
+  // Get assignments from localStorage
+  const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+  const courses = Array.from(new Set(assignments.map(a => a.course)));
+  const teachers = Array.from(new Set(assignments.map(a => a.teacher)));
+  // Map course to teachers
+  const courseToTeachers = {};
+  assignments.forEach(a => {
+    if (!courseToTeachers[a.course]) courseToTeachers[a.course] = [];
+    courseToTeachers[a.course].push(a.teacher);
+  });
+
   // ✅ FIX: Show loading or wait for localStorage before returning
   if (loading) return <div className={roleClass} style={{ minHeight: '100vh' }}><p style={{ padding: '20px' }}>Loading timetable...</p></div>;
 
@@ -143,8 +154,15 @@ function Timetable() {
                 form.reset();
               }}
             >
-              <input name="course" placeholder="Course" required />
-              <input name="teacher" placeholder="Teacher" required />
+              <select name="course" required defaultValue="">
+                <option value="" disabled>Select Course</option>
+                {courses.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <select name="teacher" required defaultValue="">
+                <option value="" disabled>Select Teacher</option>
+                {/* Show teachers for selected course if possible */}
+                {courses.length > 0 && teachers.map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
               <input name="room" placeholder="Room" required />
               <button type="submit">Assign</button>
             </form>

@@ -45,3 +45,193 @@
     margin-bottom: 10px;
   }
   
+  .doubts-stats-row {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .doubt-stat-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 14px 22px;
+    font-size: 1rem;
+    color: #334155;
+    min-width: 100px;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  .doubt-stat-card.total { border-left: 4px solid #6366f1; }
+  .doubt-stat-card.pending { border-left: 4px solid #f59e0b; }
+  .doubt-stat-card.resolved { border-left: 4px solid #10b981; }
+  
+  .add-doubt-btn {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: auto;
+    transition: background 0.2s;
+  }
+  
+  .add-doubt-btn:hover { background: #1d4ed8; }
+  
+  .doubts-filters {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  
+  .doubts-filters input,
+  .doubts-filters select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 1rem;
+  }
+  
+  .doubts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+  }
+  
+  .doubt-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+  
+  .doubt-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  
+  .doubt-badge {
+    font-size: 0.8rem;
+    padding: 3px 12px;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  
+  .doubt-badge.pending { background: #f59e0b; }
+  .doubt-badge.resolved { background: #10b981; }
+  
+  .doubt-course {
+    background: #6366f1;
+    color: #fff;
+    border-radius: 8px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+    margin-left: 6px;
+  }
+  
+  .doubt-question {
+    font-size: 1.08rem;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 2px;
+  }
+  
+  .doubt-meta {
+    font-size: 0.92rem;
+    color: #64748b;
+  }
+  
+  .doubt-answer {
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.97rem;
+    margin-top: 4px;
+  }
+  
+  .doubt-answer-label { color: #10b981; font-weight: 600; }
+  .doubt-teacher { color: #6366f1; font-weight: 500; margin-left: 6px; }
+  
+  .resolve-btn {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    align-self: flex-end;
+    transition: background 0.2s;
+  }
+  
+  .resolve-btn:hover { background: #1d4ed8; }
+  
+  .no-doubts {
+    color: #ef4444;
+    font-weight: 600;
+    padding: 20px;
+    text-align: center;
+    grid-column: 1/-1;
+  }
+  
+  .doubt-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30,41,59,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .doubt-modal {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 32px 28px 22px 28px;
+    min-width: 320px;
+    max-width: 95vw;
+    position: relative;
+  }
+  
+  .close-modal-btn {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    align-self: flex-end;
+    transition: background 0.2s;
+  }
+  
+  .close-modal-btn:hover { background: #b91c1c; }
+  
+  @media (max-width: 600px) {
+    .doubts-list {
+      grid-template-columns: 1fr;
+    }
+    .doubts-page {
+      padding: 10px;
+    }
+    .doubt-modal {
+      padding: 18px 8px 12px 8px;
+    }
+  }
+  

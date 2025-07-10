@@ -76,7 +76,7 @@ function Doubts() {
 
   return (
     <div className="doubts-page">
-      <h2>💬 Doubts & Q&A</h2>
+      <h2>Doubts & Q&A</h2>
 
       {/* Statistics */}
       <div className="doubts-stats-row">

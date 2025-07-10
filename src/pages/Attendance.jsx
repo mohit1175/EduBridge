@@ -220,14 +220,15 @@ function Attendance() {
 
   return (
     <div className={`attendance-page ${roleClass}`}>
-      <h2>📈 Attendance Overview</h2>
+      <div className="attendance-header">
+        <h2>Attendance Overview</h2>
+      </div>
 
       {/* Stats Cards */}
       <div className="attendance-stats">
-        <div className="stat-card blue">📚 Total Classes<br/><strong>{stats.total}</strong></div>
-        <div className="stat-card green">✅ Present<br/><strong>{stats.present}</strong></div>
-        <div className="stat-card red">❌ Absent<br/><strong>{stats.absent}</strong></div>
-        <div className="stat-card purple">📊 Attendance Rate<br/><strong>{stats.rate}</strong></div>
+        <div className="stat-card green">Present<br/><strong>{stats.present}</strong></div>
+        <div className="stat-card red">Absent<br/><strong>{stats.absent}</strong></div>
+        <div className="stat-card purple">Attendance Rate<br/><strong>{stats.rate}</strong></div>
       </div>
 
       {/* Advanced Statistics */}
@@ -323,7 +324,9 @@ function Attendance() {
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: stats.rate }}></div>
         </div>
-        <p>✅ Present: {stats.present} &nbsp;&nbsp; ❌ Absent: {stats.absent}</p>
+        <div className="attendance-summary">
+          <p>Present: {stats.present} &nbsp;&nbsp; Absent: {stats.absent}</p>
+        </div>
       </div>
 
       {/* Filters */}

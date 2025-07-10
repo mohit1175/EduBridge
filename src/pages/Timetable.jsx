@@ -13,16 +13,14 @@ function Timetable() {
   const [selectedCells, setSelectedCells] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Load from localStorage on first mount
   useEffect(() => {
     const savedConfig = localStorage.getItem('timetableConfig');
     const savedEntries = localStorage.getItem('timetableEntries');
     if (savedConfig) setConfig(JSON.parse(savedConfig));
     if (savedEntries) setEntries(JSON.parse(savedEntries));
-    setLoading(false); // ✅ ensure we delay render until storage check
+    setLoading(false);
   }, []);
 
-  // Save config and entries if they change (for all roles)
   useEffect(() => {
     if (config) {
       localStorage.setItem('timetableConfig', JSON.stringify(config));
@@ -68,18 +66,15 @@ function Timetable() {
     return recessPeriods.some(r => time >= r.start && time < r.end);
   };
 
-  // Get assignments from localStorage
   const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
   const courses = Array.from(new Set(assignments.map(a => a.course)));
   const teachers = Array.from(new Set(assignments.map(a => a.teacher)));
-  // Map course to teachers
   const courseToTeachers = {};
   assignments.forEach(a => {
     if (!courseToTeachers[a.course]) courseToTeachers[a.course] = [];
     courseToTeachers[a.course].push(a.teacher);
   });
 
-  // ✅ FIX: Show loading or wait for localStorage before returning
   if (loading) return <div className={roleClass} style={{ minHeight: '100vh' }}><p style={{ padding: '20px' }}>Loading timetable...</p></div>;
 
   if (!config) {
@@ -94,7 +89,7 @@ function Timetable() {
     <div className={roleClass} style={{ minHeight: '100vh' }}>
       <div className="timetable-modern">
         <div className="timetable-header">
-          <h2>📅 Weekly Timetable</h2>
+          <h2>Weekly Timetable</h2>
         </div>
 
         <div className="timetable-table">

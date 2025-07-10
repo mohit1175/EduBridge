@@ -1,11 +1,9 @@
-// src/pages/Login.jsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import users from '../data/users.json';
 import '../styles/Login.css';
 
 function Login() {
-  // For demo: show user dropdown
   const [selectedUserIdx, setSelectedUserIdx] = useState('');
   const [formData, setFormData] = useState({
     role: '',
@@ -15,14 +13,15 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Demo: map email to name
   const emailToName = {
     'a@a.com': 'Alice',
     'b@b.com': 'Bob',
-    'c@c.com': 'Mohit'
+    'c@c.com': 'Mohit',
+    'ram@a.com': 'ram',
+    'shyam@a.com': 'shyam',
+    'krishna@a.com': 'krishna'
   };
 
-  // When user selects from dropdown, auto-fill form
   const handleUserSelect = (e) => {
     const idx = e.target.value;
     setSelectedUserIdx(idx);
@@ -46,7 +45,6 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Authenticate using users.json
     const user = users.find(
       u => u.email === formData.email && u.password === formData.password && u.role === formData.role
     );
@@ -54,7 +52,6 @@ function Login() {
       setError('Invalid credentials or role.');
       return;
     }
-    // Save user info to localStorage
     localStorage.setItem('userRole', user.role);
     const name = emailToName[user.email] || user.email.split('@')[0];
     localStorage.setItem('username', name);
@@ -64,8 +61,7 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-card">
-        <h2>📘 Welcome to EduBridge</h2>
-        {/* Demo user dropdown */}
+        <h2>Welcome to EduBridge</h2>
         <div style={{ marginBottom: 16 }}>
           <label htmlFor="user-select"><strong>Demo Users:</strong>&nbsp;</label>
           <select id="user-select" value={selectedUserIdx} onChange={handleUserSelect} style={{ padding: 6, borderRadius: 6 }}>
@@ -76,16 +72,8 @@ function Login() {
           </select>
         </div>
         <form onSubmit={handleLogin}>
-          {/* Hide manual role selection for demo */}
-          {/* <select name="role" value={formData.role} onChange={handleChange} required>
-            <option value="">Select Role</option>
-            <option value="student">Student</option>
-            <option value="teacher_level1">Teacher HOD</option>
-            <option value="teacher_level2">Teacher</option>
-          </select> */}
-
           <div className="input-group">
-            <span>📧</span>
+            <span></span>
             <input
               type="email"
               name="email"
@@ -96,9 +84,8 @@ function Login() {
               autoComplete="username"
             />
           </div>
-
           <div className="input-group">
-            <span>🔒</span>
+            <span></span>
             <input
               type="password"
               name="password"
@@ -109,17 +96,8 @@ function Login() {
               autoComplete="current-password"
             />
           </div>
-
-          {error && <div style={{ color: '#ef4444', marginBottom: 8 }}>{error}</div>}
-
-          <div className="extras">
-            <label>
-              <input type="checkbox" /> Remember Me
-            </label>
-            <Link to="/forgot-password">Forgot Password?</Link>
-          </div>
-
-          <button type="submit">Login</button>
+          <button type="submit" className="login-btn">Login</button>
+          {error && <div className="login-error">{error}</div>}
         </form>
       </div>
     </div>

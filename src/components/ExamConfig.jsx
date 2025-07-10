@@ -148,8 +148,8 @@ function ExamConfig() {
                   </div>
                   
                   <div className="ica-info">
-                    <p>📝 {config.icaTests} MCQ Tests</p>
-                    <p>📊 {config.icaOption === 'best' ? 'Best Score' : 'Average Score'}</p>
+                    <p>{config.icaTests} MCQ Tests</p>
+                    <p>{config.icaOption === 'best' ? 'Best Score' : 'Average Score'}</p>
                   </div>
                 </div>
               </div>

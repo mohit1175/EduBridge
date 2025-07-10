@@ -1,4 +1,3 @@
-// src/pages/Courses.jsx
 import React, { useState } from 'react';
 import AssignRoles from '../components/AssignRoles';
 
@@ -15,7 +14,6 @@ function Courses() {
   const [filterSem, setFilterSem] = useState('All');
   const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
 
-  // Map course code to assigned teacher
   const courseToTeacher = {};
   assignments.forEach(a => { courseToTeacher[a.course] = a.teacher; });
 
@@ -25,18 +23,16 @@ function Courses() {
     (c.name.toLowerCase().includes(search.toLowerCase()) || c.code.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // Get user role
   const role = localStorage.getItem('userRole');
 
   return (
     <div style={{ padding: '20px' }}>
-      {/* Only show AssignRoles for HOD */}
       {role === 'teacher_level1' && (
         <div style={{ marginBottom: 24 }}>
           <AssignRoles />
         </div>
       )}
-      <h2>📘 Courses</h2>
+      <h2>Courses</h2>
       <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
         <input
           type="text"

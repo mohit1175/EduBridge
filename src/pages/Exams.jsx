@@ -1,39 +1,51 @@
-// src/pages/Exams.jsx
 import React, { useState } from 'react';
 import '../styles/Exams.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
+import ExamConfig from '../components/ExamConfig';
+import ExamUpload from '../components/ExamUpload';
+
+localStorage.removeItem('examResults');
+localStorage.removeItem('uploadedExams');
 
 function Exams() {
   const role = localStorage.getItem('userRole');
   const username = localStorage.getItem('username');
   const [courseFilter, setCourseFilter] = useState('All');
   const [semesterFilter, setSemesterFilter] = useState('All');
+  const [examTypeFilter, setExamTypeFilter] = useState('All');
   const [results, setResults] = useState(() => {
     const stored = localStorage.getItem('examResults');
-    if (stored) return JSON.parse(stored);
-    // Auto-generate demo results for all students
-    const students = ['Alice', 'Bob', 'Mohit'];
-    const demo = [];
-    students.forEach(student => {
-      demo.push({ student, course: 'CS', exam: 'Final', date: '2025-06-28', marks: Math.floor(Math.random()*11)+40, total: 50 });
-      demo.push({ student, course: 'Math', exam: 'Midterm', date: '2025-06-15', marks: Math.floor(Math.random()*11)+35, total: 50 });
-      demo.push({ student, course: 'Science', exam: 'Unit Test', date: '2025-06-12', marks: Math.floor(Math.random()*11)+25, total: 50 });
-    });
-    localStorage.setItem('examResults', JSON.stringify(demo));
-    return demo;
+    return stored ? JSON.parse(stored) : [];
   });
 
-  const stats = {
-    total: 6,
-    average: 78,
-    highest: 95,
-    lowest: 52
+  const calculateStats = (filteredData) => {
+    if (filteredData.length === 0) {
+      return { total: 0, average: 0, highest: 0, lowest: 0 };
+    }
+    const percentages = filteredData.map(res => Math.round((res.marks / res.total) * 100));
+    const total = filteredData.length;
+    const average = Math.round(percentages.reduce((sum, p) => sum + p, 0) / total);
+    const highest = Math.max(...percentages);
+    const lowest = Math.min(...percentages);
+    return { total, average, highest, lowest };
   };
 
-  const upcoming = [
-    { name: 'Midterm', course: 'Math', date: '2025-07-10', time: '10:00 AM', duration: '1hr', room: 'A1' },
-    { name: 'Unit Test', course: 'Science', date: '2025-07-15', time: '12:00 PM', duration: '1hr', room: 'B3' }
-  ];
+  const getUpcomingExams = () => {
+    const uploadedExams = JSON.parse(localStorage.getItem('uploadedExams') || '[]');
+    const today = new Date();
+    return uploadedExams
+      .filter(exam => new Date(exam.examDate) > today)
+      .map(exam => ({
+        name: exam.examType,
+        course: exam.subject,
+        date: exam.examDate,
+        time: '10:00 AM',
+        duration: exam.examType.includes('ICA') ? '30min' : '1hr',
+        room: 'A1',
+        examType: exam.examType.includes('ICA') ? 'ICA' : exam.examType.includes('Internal') ? 'Internal' : 'External'
+      }))
+      .slice(0, 5);
+  };
 
   const getGrade = (percent) => {
     if (percent >= 90) return 'A+';
@@ -53,35 +65,39 @@ function Exams() {
     }
   };
 
-  // Prepare data for recharts
-  // Bar chart: subject-wise scores
-  const barData = results.map(res => ({
-    course: res.course,
-    marks: res.marks,
-    total: res.total,
-    percent: Math.round((res.marks / res.total) * 100)
-  }));
-  // Pie chart: grade distribution
-  const gradeCounts = { 'A+': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0 };
-  results.forEach(res => {
-    const percent = Math.round((res.marks / res.total) * 100);
-    const grade = getGrade(percent);
-    gradeCounts[grade] = (gradeCounts[grade] || 0) + 1;
-  });
-  const pieData = Object.entries(gradeCounts).map(([name, value]) => ({ name, value }));
-  const pieColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444'];
-  // Line chart: score trend
-  const lineData = results.map(res => ({
-    exam: res.exam + ' (' + res.course + ')',
-    percent: Math.round((res.marks / res.total) * 100)
-  }));
-  // Top performer
-  const topResult = results.reduce((best, res) => (res.marks / res.total > (best.marks / best.total) ? res : best), results[0]);
-  // Pass/fail rate
-  const passCount = results.filter(res => (res.marks / res.total) * 100 >= 40).length;
-  const failCount = results.length - passCount;
+  const examConfigs = JSON.parse(localStorage.getItem('examConfigs') || '[]');
+  const uploadedExams = JSON.parse(localStorage.getItem('uploadedExams') || '[]');
 
-  // Filtered results for display
+  const calculateInternalMarks = (student, course) => {
+    const courseConfig = examConfigs.find(c => c.subjectName === course);
+    if (!courseConfig) return null;
+    const icaResults = results.filter(r => 
+      r.student === student && 
+      r.course === course && 
+      r.examType === 'ICA'
+    );
+    if (icaResults.length === 0) return null;
+    let icaMarks;
+    if (courseConfig.icaOption === 'best') {
+      icaMarks = Math.max(...icaResults.map(r => r.marks));
+    } else {
+      icaMarks = Math.round(icaResults.reduce((sum, r) => sum + r.marks, 0) / icaResults.length);
+    }
+    const otherInternal = results.find(r => 
+      r.student === student && 
+      r.course === course && 
+      r.examType === 'Internal'
+    );
+    const otherInternalMarks = otherInternal ? otherInternal.marks : 0;
+    const totalInternal = icaMarks + otherInternalMarks;
+    return {
+      icaMarks,
+      otherInternalMarks,
+      totalInternal,
+      maxInternal: courseConfig.internalMarks
+    };
+  };
+
   let filteredResults = results;
   if (role === 'student') {
     filteredResults = results.filter(r => r.student === username);
@@ -89,21 +105,66 @@ function Exams() {
   if (courseFilter !== 'All') {
     filteredResults = filteredResults.filter(r => r.course === courseFilter);
   }
+  if (examTypeFilter !== 'All') {
+    if (examTypeFilter === 'Cumulative') {
+      filteredResults = filteredResults.filter(r => r.course === courseFilter || courseFilter === 'All');
+    } else {
+      filteredResults = filteredResults.filter(r => r.exam === examTypeFilter);
+    }
+  }
+
+  const stats = calculateStats(filteredResults);
+  const barData = filteredResults.map(res => ({
+    course: res.course,
+    marks: res.marks,
+    total: res.total,
+    percent: Math.round((res.marks / res.total) * 100)
+  }));
+  const gradeCounts = { 'A+': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0 };
+  filteredResults.forEach(res => {
+    const percent = Math.round((res.marks / res.total) * 100);
+    const grade = getGrade(percent);
+    gradeCounts[grade] = (gradeCounts[grade] || 0) + 1;
+  });
+  const pieData = Object.entries(gradeCounts).map(([name, value]) => ({ name, value }));
+  const pieColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444'];
+  const lineData = filteredResults.map(res => ({
+    exam: res.exam + ' (' + res.course + ')',
+    percent: Math.round((res.marks / res.total) * 100)
+  }));
+  const topResult = filteredResults.length > 0 ? 
+    filteredResults.reduce((best, res) => (res.marks / res.total > (best.marks / best.total) ? res : best), filteredResults[0]) : null;
+  const passCount = filteredResults.filter(res => (res.marks / res.total) * 100 >= 40).length;
+  const failCount = filteredResults.length - passCount;
 
   return (
     <div className="exams-page">
-      <h2>🎓 Exams</h2>
-
-      {/* Stats */}
-      <div className="exam-stats">
-        <div className="stat-card blue">📝 Total Exams<br /><strong>{stats.total}</strong></div>
-        <div className="stat-card green">📊 Avg. Score<br /><strong>{stats.average}%</strong></div>
-        <div className="stat-card purple">🏆 Highest<br /><strong>{stats.highest}</strong></div>
-        <div className="stat-card red">📉 Lowest<br /><strong>{stats.lowest}</strong></div>
-      </div>
-
-      {/* Advanced Statistics & Charts */}
-      <div className="exam-advanced-stats" style={{ display: 'flex', gap: 32, flexWrap: 'wrap', marginBottom: 32 }}>
+      <h2>Exams</h2>
+      {role === 'teacher_level1' && (
+        <div style={{ marginBottom: 32 }}>
+          <ExamConfig />
+        </div>
+      )}
+      {role === 'teacher_level2' && (
+        <div style={{ marginBottom: 32 }}>
+          <ExamUpload />
+        </div>
+      )}
+      {results.length === 0 ? (
+        <div className="no-data-message">
+          <h3>No Exam Data Available</h3>
+          <p>Upload CSV files to see exam statistics and results.</p>
+        </div>
+      ) : (
+        <div className="exam-stats">
+          <div className="stat-card blue">Total Exams<br /><strong>{stats.total}</strong></div>
+          <div className="stat-card green">Avg. Score<br /><strong>{stats.average}%</strong></div>
+          <div className="stat-card purple">Highest<br /><strong>{stats.highest}</strong></div>
+          <div className="stat-card red">Lowest<br /><strong>{stats.lowest}</strong></div>
+        </div>
+      )}
+      {results.length > 0 && (
+        <div className="exam-advanced-stats" style={{ display: 'flex', gap: 32, flexWrap: 'wrap', marginBottom: 32 }}>
         <div className="advanced-card" style={{ minWidth: 320, flex: 1 }}>
           <strong>Subject-wise Scores</strong>
           <ResponsiveContainer width="100%" height={180}>
@@ -142,55 +203,127 @@ function Exams() {
         </div>
         <div className="advanced-card" style={{ minWidth: 220, flex: 1 }}>
           <strong>Top Performer</strong><br/>
-          {topResult ? `${topResult.course} (${topResult.exam}): ${topResult.marks}/${topResult.total}` : 'N/A'}
+          {topResult ? `${topResult.course} (${topResult.exam}): ${topResult.marks}/${topResult.total}` : 'No data available'}
         </div>
         <div className="advanced-card" style={{ minWidth: 220, flex: 1 }}>
           <strong>Pass Rate</strong><br/>
           <span style={{ color: '#10b981', fontWeight: 600 }}>{passCount}</span> Passed / <span style={{ color: '#ef4444', fontWeight: 600 }}>{failCount}</span> Failed
         </div>
       </div>
-
-      {/* Filters */}
+      )}
       <div className="exam-filters">
         <select value={courseFilter} onChange={(e) => setCourseFilter(e.target.value)}>
           <option>All Courses</option>
-          <option>CS</option>
-          <option>Math</option>
-          <option>Science</option>
+          {Array.from(new Set(results.map(r => r.course))).map(course => (
+            <option key={course} value={course}>{course}</option>
+          ))}
         </select>
+        {role === 'student' && (
+          <select value={examTypeFilter} onChange={(e) => setExamTypeFilter(e.target.value)}>
+            <option>All Exam Types</option>
+            <option>ICA Test 1</option>
+            <option>ICA Test 2</option>
+            <option>ICA Test 3</option>
+            <option>Other Internal</option>
+            <option>External</option>
+            <option>Cumulative</option>
+          </select>
+        )}
         <select value={semesterFilter} onChange={(e) => setSemesterFilter(e.target.value)}>
           <option>All Semesters</option>
           <option>5</option>
           <option>6</option>
         </select>
       </div>
-
-      {/* Upcoming Exams */}
+      {role === 'student' && uploadedExams.length > 0 && (
+        <div className="exam-links">
+          <h3>Available Exam Forms</h3>
+          <div className="links-grid">
+            {uploadedExams
+              .filter(exam => exam.examLink)
+              .map((exam, i) => (
+                <div key={i} className="link-card">
+                  <div className="link-header">
+                    <strong>{exam.examType}</strong>
+                    <span className={`badge ${exam.examType.includes('ICA') ? 'blue' : 'green'}`}>
+                      {exam.examType.includes('ICA') ? 'ICA' : 'Internal'}
+                    </span>
+                  </div>
+                  <p>{exam.subject}</p>
+                  <p>{exam.examDate}</p>
+                  <a 
+                    href={exam.examLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="exam-form-link"
+                  >
+                    Take Exam
+                  </a>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
       <div className="upcoming-exams">
-        <h3>📅 Upcoming Exams</h3>
+        <h3>Upcoming Exams</h3>
         <div className="upcoming-grid">
-          {upcoming.map((exam, i) => (
+          {getUpcomingExams().map((exam, i) => (
             <div key={i} className="exam-card">
-              <strong>{exam.name}</strong>
-              <p>📘 {exam.course}</p>
-              <p>📅 {exam.date}</p>
-              <p>⏰ {exam.time}</p>
-              <p>🕒 Duration: {exam.duration}</p>
-              <p>🏫 Room: {exam.room}</p>
-              <span className="badge green">Upcoming</span>
+              <div className="exam-card-header">
+                <strong>{exam.name}</strong>
+                <span className={`badge ${exam.examType === 'ICA' ? 'blue' : 'green'}`}>
+                  {exam.examType}
+                </span>
+              </div>
+              <p>{exam.course}</p>
+              <p>{exam.date}</p>
+              <p>{exam.time}</p>
+              <p>Duration: {exam.duration}</p>
+              <p>Room: {exam.room}</p>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Results Table */}
+      {role === 'student' && (
+        <div className="internal-marks-summary">
+          <h3>Internal Marks Summary</h3>
+          <div className="internal-grid">
+            {Array.from(new Set(filteredResults.map(r => r.course))).map(course => {
+              const internalMarks = calculateInternalMarks(username, course);
+              if (!internalMarks) return null;
+              return (
+                <div key={course} className="internal-card">
+                  <h4>{course}</h4>
+                  <div className="internal-breakdown">
+                    <div className="internal-item">
+                      <span>ICA Marks:</span>
+                      <strong>{internalMarks.icaMarks}/20</strong>
+                    </div>
+                    {internalMarks.otherInternalMarks > 0 && (
+                      <div className="internal-item">
+                        <span>Other Internal:</span>
+                        <strong>{internalMarks.otherInternalMarks}/20</strong>
+                      </div>
+                    )}
+                    <div className="internal-item total">
+                      <span>Total Internal:</span>
+                      <strong>{internalMarks.totalInternal}/{internalMarks.maxInternal}</strong>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
       <div className="exam-results">
-        <h3>📑 Results</h3>
+        <h3>Results</h3>
         <table>
           <thead>
             <tr>
               <th>Student</th>
               <th>Course</th>
+              <th>Exam Type</th>
               <th>Exam</th>
               <th>Date</th>
               <th>Marks</th>
@@ -206,6 +339,11 @@ function Exams() {
                 <tr key={i}>
                   <td>{res.student}</td>
                   <td>{res.course}</td>
+                  <td>
+                    <span className={`badge ${res.examType === 'ICA' ? 'blue' : res.examType === 'Internal' ? 'green' : 'purple'}`}>
+                      {res.examType}
+                    </span>
+                  </td>
                   <td>{res.exam}</td>
                   <td>{res.date}</td>
                   <td>{res.marks} / {res.total}</td>

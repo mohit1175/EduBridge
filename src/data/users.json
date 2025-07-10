@@ -13,6 +13,26 @@
       "email": "c@c.com",
       "password": "c",
       "role": "teacher_level1"
+    },
+    {
+      "email": "ram@a.com",
+      "password": "ram123",
+      "role": "student",
+      "name": "ram"
+    },
+    {
+      "email": "shyam@a.com",
+      "password": "shyam123",
+      "role": "student",
+      "name": "shyam"
+    },
+    {
+      "email": "krishna@a.com",
+      "password": "krishna123",
+      "role": "student",
+      "name": "krishna"
     }
+    
+    
   ]
   

@@ -107,4 +107,149 @@
     background-color: #10b981;
   }
 
+  /* Exam Links Section */
+  .exam-links {
+    margin-bottom: 40px;
+  }
+
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .link-card {
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .link-header strong {
+    font-size: 1.1rem;
+    color: #1e293b;
+  }
+
+  .exam-form-link {
+    display: inline-block;
+    background: #6366f1;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+
+  .exam-form-link:hover {
+    background: #3730a3;
+  }
+
+  /* Exam Card Header */
+  .exam-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  /* Internal Marks Summary */
+  .internal-marks-summary {
+    margin-bottom: 40px;
+  }
+
+  .internal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .internal-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .internal-card h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+    margin-top: 0;
+  }
+
+  .internal-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .internal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+
+  .internal-item span {
+    color: #64748b;
+  }
+
+  .internal-item strong {
+    color: #1e293b;
+    font-weight: 700;
+  }
+
+  .internal-item.total {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+  }
+
+  .internal-item.total span,
+  .internal-item.total strong {
+    color: #0369a1;
+  }
+
+  /* No Data Message */
+  .no-data-message {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px dashed #cbd5e1;
+    margin-bottom: 30px;
+  }
+
+  .no-data-message h3 {
+    color: #64748b;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+
+  .no-data-message p {
+    color: #94a3b8;
+    font-size: 1rem;
+  }
+
   

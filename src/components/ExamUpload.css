@@ -1,0 +1,259 @@
+.exam-upload-container {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(60,60,120,0.07);
+  padding: 28px 24px 20px 24px;
+  max-width: 900px;
+  margin: 0 auto 32px auto;
+}
+
+.exam-upload-container h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #3730a3;
+  margin-bottom: 24px;
+}
+
+.upload-toast {
+  border-radius: 7px;
+  padding: 8px 14px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 0.98rem;
+}
+
+.upload-toast.success {
+  background: #f0fdf4;
+  color: #059669;
+  border: 1px solid #bbf7d0;
+}
+
+.upload-toast.error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.upload-form-section {
+  margin-bottom: 32px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.upload-form-section h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 16px;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  flex: 1;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.form-group select,
+.form-group input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-group small {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.upload-btn {
+  padding: 12px 24px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+
+.upload-btn:hover:not(:disabled) {
+  background: #3730a3;
+}
+
+.upload-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.uploaded-exams-section {
+  margin-bottom: 32px;
+}
+
+.uploaded-exams-section h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 16px;
+}
+
+.no-uploads {
+  color: #64748b;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+.uploads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.upload-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s;
+}
+
+.upload-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.upload-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.upload-header h5 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.delete-upload-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.delete-upload-btn:hover {
+  background: #fee2e2;
+}
+
+.upload-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upload-details p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.upload-details strong {
+  color: #1e293b;
+}
+
+.exam-link {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.exam-link:hover {
+  text-decoration: underline;
+}
+
+.csv-guide {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.csv-guide h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 16px;
+}
+
+.guide-content p {
+  margin-bottom: 12px;
+  color: #374151;
+}
+
+.csv-example {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+.csv-example code {
+  color: inherit;
+}
+
+.guide-content ul {
+  margin: 12px 0;
+  padding-left: 20px;
+}
+
+.guide-content li {
+  margin-bottom: 6px;
+  color: #374151;
+  font-size: 0.95rem;
+} 

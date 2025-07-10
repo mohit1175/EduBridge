@@ -7,10 +7,10 @@ const demoTeachers = [
   { name: 'Mohit', role: 'teacher_level2' },
 ];
 const demoCourses = [
-  'Mathematics',
-  'Computer Science',
-  'Physics',
-  'English Literature',
+  { name: 'Mathematics', totalMarks: 50 },
+  { name: 'Computer Science', totalMarks: 100 },
+  { name: 'Physics', totalMarks: 50 },
+  { name: 'English Literature', totalMarks: 50 },
 ];
 
 function roleBadge(role) {
@@ -49,7 +49,7 @@ function AssignRoles() {
 
   // Unassigned courses
   const assignedCourses = assignments.map(a => a.course);
-  const unassignedCourses = demoCourses.filter(c => !assignedCourses.includes(c));
+  const unassignedCourses = demoCourses.filter(c => !assignedCourses.includes(c.name));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +58,12 @@ function AssignRoles() {
       setTimeout(() => setMessage(''), 2000);
       return;
     }
-    assignments.push({ teacher: formData.teacherId, course: formData.courseId });
+    const selectedCourse = demoCourses.find(c => c.name === formData.courseId);
+    assignments.push({ 
+      teacher: formData.teacherId, 
+      course: formData.courseId,
+      totalMarks: selectedCourse ? selectedCourse.totalMarks : 50
+    });
     localStorage.setItem('teacherAssignments', JSON.stringify(assignments));
     setMessage(`Assigned Teacher ${formData.teacherId} to Course ${formData.courseId}`);
     setFormData({ teacherId: '', courseId: '' });
@@ -86,7 +91,7 @@ function AssignRoles() {
           className="ar-select"
         >
           <option value="">Select Course</option>
-          {demoCourses.map(c => <option key={c} value={c}>{c}</option>)}
+                        {demoCourses.map(c => <option key={c.name} value={c.name}>{c.name} ({c.totalMarks} marks)</option>)}
         </select>
         <button type="submit" className="ar-btn">Assign</button>
       </form>
@@ -115,7 +120,7 @@ function AssignRoles() {
       {unassignedCourses.length > 0 && (
         <div className="ar-section ar-unassigned">
           <div className="ar-section-header">Unassigned Courses</div>
-          <div>{unassignedCourses.join(', ')}</div>
+          <div>{unassignedCourses.map(c => `${c.name} (${c.totalMarks} marks)`).join(', ')}</div>
         </div>
       )}
     </div>

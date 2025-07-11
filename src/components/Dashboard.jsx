@@ -1,4 +1,3 @@
-// src/components/Dashboard.jsx
 import React from 'react';
 import { NavLink, Routes, Route } from 'react-router-dom';
 import Courses from '../pages/Courses';
@@ -32,7 +31,6 @@ function Dashboard({ role }) {
 
   return (
     <div className={`dashboard-container ${roleClass}`}>
-      {/* Username display */}
       <div className={headerClass}>
         <h2>📘 Welcome, {username}!</h2>
         <span className="dashboard-role">Role: {role}</span>

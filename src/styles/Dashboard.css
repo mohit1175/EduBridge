@@ -57,6 +57,12 @@
   transform: translateY(-2px) scale(1.025);
 }
 
+.dashboard-hod .stat-card:hover,
+.dashboard-hod .stat-card:focus {
+  box-shadow: 0 8px 32px rgba(100,116,139,0.20), 0 2px 8px rgba(0,0,0,0.08);
+  transform: translateY(-2px) scale(1.025);
+}
+
 .stat-card strong {
   display: block;
   font-size: 1.5rem;
@@ -75,6 +81,19 @@
 .stat-card.green { background-color: #10b981; }
 .stat-card.orange { background-color: #f59e0b; }
 .stat-card.purple { background-color: #8b5cf6; }
+
+.dashboard-hod .stat-card.blue {
+  background-color: #64748b;
+}
+.dashboard-hod .stat-card.green {
+  background-color: #64748b;
+}
+.dashboard-hod .stat-card.orange {
+  background-color: #64748b;
+}
+.dashboard-hod .stat-card.purple {
+  background-color: #64748b;
+}
 
 /* Main Content Grid */
 .main-content-grid {
@@ -120,22 +139,30 @@
 }
 
 .quick-actions button {
-  padding: 12px;
+  padding: 14px 16px;
   background-color: #24619e;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   color: #f8fafc;
+  letter-spacing: 0.02em;
 }
 
 .quick-actions button:hover {
   background: #1e40af;
   color: #fff;
   box-shadow: 0 4px 12px rgba(60,60,180,0.10);
+}
+
+.dashboard-hod .quick-actions button:hover {
+  background: #475569;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(71,85,105,0.25);
+  transform: translateY(-1px);
 }
 
 /* Role-based dashboard backgrounds */
@@ -146,7 +173,7 @@
   background: linear-gradient(120deg, #e6fbe8 0%, #f0fff4 100%);
 }
 .dashboard-hod {
-  background: linear-gradient(120deg, #ede9fe 0%, #f5f3ff 100%);
+  background: linear-gradient(120deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 .dashboard-header {
@@ -165,7 +192,7 @@
   color: #059669;
 }
 .dashboard-header.hod {
-  color: #7c3aed;
+  color: #475569;
 }
 
 .dashboard-header h2 {
@@ -190,9 +217,12 @@
 }
 
 /* HOD accent */
+.dashboard-hod .stat-card.blue,
+.dashboard-hod .stat-card.green,
+.dashboard-hod .stat-card.orange,
 .dashboard-hod .stat-card.purple,
 .dashboard-hod .quick-actions button {
-  background-color: #7c3aed;
+  background-color: #64748b;
 }
 
 /* Responsive tweaks */

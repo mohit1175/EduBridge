@@ -1,71 +1,120 @@
-# Getting Started with Create React App
+# EduBridge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+EduBridge is an educational platform built with React and Node.js, featuring MongoDB integration for user authentication and data management.
+
+## Features
+
+- User authentication with role-based access (Student, Teacher Level 1, Teacher Level 2)
+- MongoDB integration with graceful fallback to static data
+- Dashboard with role-specific views
+- Course management, attendance tracking, timetable management
+- Doubt resolution system and exam management
+- JWT-based secure authentication
+
+## Quick Start
+
+### Prerequisites
+- Node.js (v14 or higher)
+- Docker and Docker Compose
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd EduBridge
+   ```
+
+2. **Set up MongoDB**
+   ```bash
+   npm run setup:mongodb
+   ```
+
+3. **Install dependencies**
+   ```bash
+   npm install
+   cd backend && npm install && cd ..
+   ```
+
+4. **Migrate user data to MongoDB**
+   ```bash
+   npm run migrate
+   ```
+
+5. **Start the application**
+   ```bash
+   npm run dev
+   ```
+
+   This will start both the backend server (port 5000) and frontend (port 3000).
+
+## Architecture
+
+- **Frontend**: React application with React Router
+- **Backend**: Express.js server with MongoDB integration
+- **Database**: MongoDB (containerized with Docker)
+- **Authentication**: JWT tokens with bcrypt password hashing
+
+## Demo Users
+
+| Email | Password | Role | Access Level |
+|-------|----------|------|--------------|
+| a@a.com | a | student | Student Dashboard |
+| b@b.com | b | teacher_level2 | Teacher Dashboard |
+| c@c.com | c | teacher_level1 | HOD Dashboard |
+| ram@a.com | ram123 | student | Student Dashboard |
+| shyam@a.com | shyam123 | student | Student Dashboard |
+| krishna@a.com | krishna123 | student | Student Dashboard |
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### Frontend Scripts
+- `npm start` - Runs the React app in development mode (http://localhost:3000)
+- `npm run build` - Builds the app for production
+- `npm test` - Launches the test runner
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Backend Scripts
+- `npm run start:backend` - Starts the Express server
+- `npm run dev` - Starts both frontend and backend simultaneously
+- `npm run migrate` - Populates MongoDB with demo user data
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Database Scripts
+- `npm run setup:mongodb` - Starts MongoDB using Docker Compose
 
-### `npm test`
+## MongoDB Integration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The application now uses MongoDB for user storage and authentication:
 
-### `npm run build`
+- User passwords are securely hashed using bcrypt
+- JWT tokens are used for session management
+- Automatic fallback to static JSON data if MongoDB is unavailable
+- Docker Compose setup for easy MongoDB deployment
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+For detailed MongoDB setup instructions, see [MONGODB_SETUP.md](./MONGODB_SETUP.md).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+EduBridge/
+├── src/                     # React frontend source
+│   ├── components/          # Reusable React components
+│   ├── pages/              # Page components
+│   ├── services/           # API service layer
+│   └── data/               # Static data (fallback)
+├── backend/                # Express.js backend
+│   ├── models/             # MongoDB models
+│   ├── routes/             # API routes
+│   └── middleware/         # Express middleware
+├── public/                 # Static assets
+└── docker-compose.yml      # MongoDB container setup
+```
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# EduBridge
+- [React Documentation](https://reactjs.org/)
+- [Express.js Guide](https://expressjs.com/)
+- [MongoDB Documentation](https://docs.mongodb.com/)
+- [Create React App Documentation](https://facebook.github.io/create-react-app/docs/getting-started)

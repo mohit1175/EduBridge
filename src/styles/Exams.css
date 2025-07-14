@@ -252,4 +252,24 @@
     font-size: 1rem;
   }
 
+  .download-btn-modern {
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.08rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.15);
+    margin: 8px 0;
+    transition: background 0.2s, box-shadow 0.2s;
+    outline: none;
+    display: inline-block;
+  }
+  .download-btn-modern:hover, .download-btn-modern:focus {
+    background: linear-gradient(90deg, #3730a3 0%, #6366f1 100%);
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+  }
+
   

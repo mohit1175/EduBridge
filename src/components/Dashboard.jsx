@@ -6,6 +6,7 @@ import Timetable from '../pages/Timetable.jsx';
 import Doubts from '../pages/Doubts';
 import Exams from '../pages/Exams';
 import DashboardMain from './DashboardMain';
+import StudyMaterials from '../pages/StudyMaterials';
 import '../styles/Dashboard.css';
 
 function Dashboard({ role }) {
@@ -26,7 +27,8 @@ function Dashboard({ role }) {
     { name: 'Attendance', path: '/home/attendance' },
     { name: 'Timetable', path: '/home/timetable' },
     { name: 'Doubts', path: '/home/doubts' },
-    { name: 'Exams', path: '/home/exams' }
+    { name: 'Exams', path: '/home/exams' },
+    { name: 'Study Materials', path: '/home/materials' }
   ];
 
   return (
@@ -55,6 +57,7 @@ function Dashboard({ role }) {
         <Route path="timetable" element={<Timetable />} />
         <Route path="doubts" element={<Doubts />} />
         <Route path="exams" element={<Exams />} />
+        <Route path="materials" element={<StudyMaterials />} />
       </Routes>
     </div>
   );

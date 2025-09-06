@@ -1,18 +1,29 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Navbar.css';
 
 function Navbar() {
-  const role = localStorage.getItem('userRole');
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const role = user?.role || localStorage.getItem('userRole');
   const roleClass =
     role === 'student' ? 'navbar-student' :
-    role === 'teacher_level2' ? 'navbar-teacher' :
-    role === 'teacher_level1' ? 'navbar-hod' : '';
+    role === 'teacher' ? 'navbar-teacher' :
+    role === 'hod' ? 'navbar-hod' :
+    role === 'admin' ? 'navbar-admin' : '';
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className={`navbar ${roleClass}`}>
       <h1>EduBridge</h1>
       <div className="nav-links">
-        <a href="/home">Home</a>
-        <a href="/">Logout</a>
+        <Link to={user ? `/${user.role}` : '/'}>Home</Link>
+        <button onClick={handleLogout} className="logout-btn">Logout</button>
       </div>
     </div>
   );

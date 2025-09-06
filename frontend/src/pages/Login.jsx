@@ -1,76 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import users from '../data/users.json';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Login.css';
 
 function Login() {
-  const [selectedUserIdx, setSelectedUserIdx] = useState('');
-  const [formData, setFormData] = useState({
-    role: '',
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const emailToName = {
-    'a@a.com': 'Alice',
-    'b@b.com': 'Bob',
-    'c@c.com': 'Mohit',
-    'ram@a.com': 'ram',
-    'shyam@a.com': 'shyam',
-    'krishna@a.com': 'krishna'
-  };
-
-  const handleUserSelect = (e) => {
-    const idx = e.target.value;
-    setSelectedUserIdx(idx);
-    if (idx !== '') {
-      const user = users[idx];
-      setFormData({
-        role: user.role,
-        email: user.email,
-        password: user.password
-      });
-    } else {
-      setFormData({ role: '', email: '', password: '' });
-    }
-    setError('');
-  };
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const user = users.find(
-      u => u.email === formData.email && u.password === formData.password && u.role === formData.role
-    );
-    if (!user) {
-      setError('Invalid credentials or role.');
-      return;
+    setLoading(true);
+    try {
+      const user = await login(formData.email, formData.password);
+      const rolePath = user.role === 'admin' ? '/admin' : user.role === 'teacher' ? '/teacher' : user.role === 'hod' ? '/hod' : '/student';
+      navigate(rolePath);
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
-    localStorage.setItem('userRole', user.role);
-    const name = emailToName[user.email] || user.email.split('@')[0];
-    localStorage.setItem('username', name);
-    navigate('/home/dashboard');
   };
 
   return (
     <div className="login-page">
       <div className="login-card">
         <h2>Welcome to EduBridge</h2>
-        <div style={{ marginBottom: 16 }}>
-          <label htmlFor="user-select"><strong>Demo Users:</strong>&nbsp;</label>
-          <select id="user-select" value={selectedUserIdx} onChange={handleUserSelect} style={{ padding: 6, borderRadius: 6 }}>
-            <option value="">Select User</option>
-            {users.map((u, i) => (
-              <option key={u.email} value={i}>{u.role.replace('teacher_level1','HOD').replace('teacher_level2','Teacher').replace('student','Student')} - {u.email}</option>
-            ))}
-          </select>
-        </div>
         <form onSubmit={handleLogin}>
           <div className="input-group">
             <span></span>
@@ -96,9 +58,12 @@ function Login() {
               autoComplete="current-password"
             />
           </div>
-          <button type="submit" className="login-btn">Login</button>
+          <button type="submit" className="login-btn" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
           {error && <div className="login-error">{error}</div>}
         </form>
+        <div style={{ marginTop: 12 }}>
+          <Link to="/forgot-password">Forgot password?</Link>
+        </div>
       </div>
     </div>
   );

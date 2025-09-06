@@ -12,13 +12,13 @@ function DashboardMain({ role }) {
       { label: 'Avg. Grade', value: 'A-', color: 'purple' },
       { label: 'Doubts Resolved', value: 12, color: 'orange' }
     ],
-    teacher_level2: [
+    teacher: [
       { label: 'Courses Teaching', value: 3, color: 'blue' },
       { label: 'Attendance Marked', value: 24, color: 'green' },
       { label: 'Doubts Answered', value: 7, color: 'purple' },
       { label: 'Papers Evaluated', value: 5, color: 'orange' }
     ],
-    teacher_level1: [
+    hod: [
       { label: 'Total Courses', value: 10, color: 'blue' },
       { label: 'Reports Submitted', value: 8, color: 'green' },
       { label: 'Teachers Managed', value: 5, color: 'purple' },
@@ -26,24 +26,26 @@ function DashboardMain({ role }) {
     ]
   };
 
+  const base = role === 'teacher' ? '/teacher' : role === 'hod' ? '/hod' : '/student';
+
   const quickActions = {
     student: [
-      { label: 'View Timetable', route: '/home/timetable' },
-      { label: 'My Attendance', route: '/home/attendance' },
-      { label: 'Ask Doubt', route: '/home/doubts' },
-      { label: 'View Results', route: '/home/exams' }
+      { label: 'View Timetable', route: `${base}/timetable` },
+      { label: 'My Attendance', route: `${base}/attendance` },
+      { label: 'Ask Doubt', route: `${base}/doubts` },
+      { label: 'View Results', route: `${base}/exams` }
     ],
-    teacher_level2: [
-      { label: 'Mark Attendance', route: '/home/attendance' },
-      { label: 'View Doubts', route: '/home/doubts' },
-      { label: 'Manage Schedule', route: '/home/timetable' },
-      { label: 'Upload Grades', route: '/home/exams' }
+    teacher: [
+      { label: 'Mark Attendance', route: `${base}/attendance` },
+      { label: 'View Doubts', route: `${base}/doubts` },
+      { label: 'Manage Schedule', route: `${base}/timetable` },
+      { label: 'Upload Grades', route: `${base}/exams` }
     ],
-    teacher_level1: [
-      { label: 'Assign Roles', route: '/home/courses' },
-      { label: 'Add Course', route: '/home/courses' },
-      { label: 'Generate Report', route: '/home/exams' },
-      { label: 'Manage Timetable', route: '/home/timetable' }
+    hod: [
+      { label: 'Assign Roles', route: `${base}/roles` },
+      { label: 'Add Course', route: `${base}/courses` },
+      { label: 'Generate Report', route: `${base}/reports` },
+      { label: 'Manage Timetable', route: `${base}/timetable` }
     ]
   };
 
@@ -53,8 +55,8 @@ function DashboardMain({ role }) {
   return (
     <>
       {role === 'student' && <h2>Student Dashboard</h2>}
-      {role === 'teacher_level2' && <h2>Teacher Dashboard</h2>}
-      {role === 'teacher_level1' && <h2>HOD Dashboard</h2>}
+      {role === 'teacher' && <h2>Teacher Dashboard</h2>}
+      {role === 'hod' && <h2>HOD Dashboard</h2>}
       <div className="stats-grid">
         {userStats.map((s, i) => (
           <div key={i} className={`stat-card ${s.color}`}>

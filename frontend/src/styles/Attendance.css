@@ -126,7 +126,7 @@
   
   /* Role-based attendance backgrounds */
   .attendance-student {
-    background: linear-gradient(120deg, #e0f2fe 0%, #f0f9ff 100%);
+    background: linear-gradient(120deg, #fee2e2 0%, #fff5f5 100%);
   }
   .attendance-teacher {
     background: linear-gradient(120deg, #e6fbe8 0%, #f0fff4 100%);
@@ -138,7 +138,7 @@
   /* Role-based badge and progress bar colors */
   .attendance-student .badge.green,
   .attendance-student .progress-fill {
-    background-color: #2563eb;
+    background-color: #f87171;
   }
   .attendance-teacher .badge.green,
   .attendance-teacher .progress-fill {

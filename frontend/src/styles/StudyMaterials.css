@@ -1,0 +1,127 @@
+.sm-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+}
+
+.sm-title {
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.sm-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(2, 6, 23, 0.04);
+}
+
+.sm-upload {
+  padding: 18px 18px 22px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.sm-upload h3 {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+}
+
+.sm-form {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+  align-items: end;
+}
+
+.sm-form .sm-field { grid-column: span 4; }
+.sm-form .sm-field-wide { grid-column: span 8; }
+.sm-form .sm-field-file { grid-column: span 4; }
+
+@media (max-width: 900px) {
+  .sm-form { grid-template-columns: repeat(6, 1fr); }
+  .sm-form .sm-field, .sm-form .sm-field-wide, .sm-form .sm-field-file { grid-column: span 6; }
+}
+
+.sm-label {
+  display: block;
+  margin: 2px 0 6px 2px;
+  color: #374151;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.sm-input, .sm-select, .sm-file {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+.sm-input:focus, .sm-select:focus, .sm-file:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.16);
+}
+
+.sm-actions { grid-column: span 12; }
+.sm-upload-btn {
+  margin-top: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, #6366F1, #4F46E5);
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.sm-upload-btn:hover { filter: brightness(0.98); }
+
+.sm-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 14px 0 16px;
+}
+
+.sm-filter {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.sm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.sm-item {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 3px 16px rgba(2, 6, 23, 0.05);
+}
+.sm-item-title { font-weight: 700; color: #3730a3; }
+.sm-item-desc { color: #64748b; font-size: 14px; margin-top: 4px; }
+.sm-item-meta { font-size: 13px; margin-top: 8px; }
+.sm-open-btn { margin-top: 10px; }
+
+.sm-message {
+  margin-top: 8px;
+  font-size: 14px;
+}
+.sm-message.ok { color: #059669; }
+.sm-message.err { color: #ef4444; }
+
+.sm-empty, .sm-loading {
+  color: #64748b;
+  text-align: center;
+  margin-top: 40px;
+}

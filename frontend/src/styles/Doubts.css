@@ -1,7 +1,7 @@
 .doubts-page {
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
+    padding: 24px;
+    max-width: 980px;
+    margin: 0 auto;
   }
   
   .ask-doubt-form {
@@ -12,15 +12,17 @@
   }
   
   .ask-doubt-form input,
-  .ask-doubt-form textarea {
-    padding: 12px;
-    border: 1px solid #d1d5db;
+  .ask-doubt-form textarea,
+  .ask-doubt-form select {
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
     border-radius: 8px;
     font-size: 15px;
+    background: #fff;
   }
   
   .ask-doubt-form button {
-    background-color: #2563eb;
+    background-color: #f87171;
     color: white;
     border: none;
     padding: 10px 16px;
@@ -30,7 +32,7 @@
   }
   
   .ask-doubt-form button:hover {
-    background-color: #1d4ed8;
+    background-color: #ef4444;
   }
   
   .submitted-doubts ul {
@@ -39,9 +41,9 @@
   }
   
   .submitted-doubts li {
-    background: #f3f4f6;
-    padding: 10px;
-    border-radius: 6px;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
     margin-bottom: 10px;
   }
   
@@ -70,7 +72,7 @@
   .doubt-stat-card.resolved { border-left: 4px solid #10b981; }
   
   .add-doubt-btn {
-    background: #2563eb;
+    background: #f87171;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -81,7 +83,7 @@
     transition: background 0.2s;
   }
   
-  .add-doubt-btn:hover { background: #1d4ed8; }
+  .add-doubt-btn:hover { background: #ef4444; }
   
   .doubts-filters {
     display: flex;
@@ -105,13 +107,14 @@
   
   .doubt-card {
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     padding: 18px 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     position: relative;
+    border: 1px solid #eef2f7;
   }
   
   .doubt-card-header {
@@ -166,7 +169,7 @@
   .doubt-teacher { color: #6366f1; font-weight: 500; margin-left: 6px; }
   
   .resolve-btn {
-    background: #2563eb;
+    background: #f87171;
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -178,7 +181,7 @@
     transition: background 0.2s;
   }
   
-  .resolve-btn:hover { background: #1d4ed8; }
+  .resolve-btn:hover { background: #ef4444; }
   
   .no-doubts {
     color: #ef4444;
@@ -200,12 +203,13 @@
   
   .doubt-modal {
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    padding: 32px 28px 22px 28px;
-    min-width: 320px;
+    border-radius: 14px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    padding: 24px 22px 18px 22px;
+    width: 720px;
     max-width: 95vw;
     position: relative;
+    border: 1px solid #eef2f7;
   }
   
   .close-modal-btn {

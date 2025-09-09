@@ -1,43 +1,45 @@
 .navbar {
-  background-color: #2e86de;
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 6px 12px; /* compact but balanced */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+  color: #fff;
 }
 
-.navbar h1 {
+.nav-inner {
+  display: flex;
+  align-items: center;      /* vertical alignment */
+  justify-content: space-between; /* brand left, logout right */
+  width: 100%;
+}
+
+/* Logo/brand on the left */
+.brand h1 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 18px; /* compact text */
+  font-weight: 700;
+  line-height: 1.2;
+  color: white; /* ensures visibility */
 }
 
-.nav-links {
-  display: flex;
-  gap: 20px;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 6px 14px;
+/* Logout button on the right */
+.logout-btn {
+  color: #0b1320;
+  background: rgba(255, 255, 255, 0.95);
+  font-weight: 600;
+  padding: 3px 12px;
   border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  font-size: 14px;
 }
 
-.nav-links a:hover {
-  background: rgba(255,255,255,0.12);
-  color: #f1f5f9;
+.logout-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
-.navbar-student {
-  background-color: #2563eb;
-}
-.navbar-teacher {
-  background-color: #059669;
-}
-.navbar-hod {
-  background-color: #190303;
-}
+/* Background colors per role */
+.navbar-student { background-color: #fca5a5; }
+.navbar-teacher { background-color: #86efac; }
+.navbar-hod     { background-color: #190303; }
+.navbar-admin   { background-color: #60a5fa; }

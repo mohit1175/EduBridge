@@ -1,35 +1,49 @@
 import React from 'react';
 import { NavLink, Routes, Route } from 'react-router-dom';
-import Courses from '../pages/Courses';
-import Attendance from '../pages/Attendance.jsx';
-import Timetable from '../pages/Timetable.jsx';
-import Doubts from '../pages/Doubts';
-import Exams from '../pages/Exams';
+import { useAuth } from '../contexts/AuthContext';
+import Courses from '../pages/CoursesNew';
+import Attendance from '../pages/AttendanceNew';
+import Timetable from '../pages/TimetableNew';
+import Doubts from '../pages/DoubtsNew';
+import Exams from '../pages/ExamsNew';
 import DashboardMain from './DashboardMain';
 import StudyMaterials from '../pages/StudyMaterials';
 import '../styles/Dashboard.css';
+const AdminLazy = React.lazy(() => import('../pages/Admin'));
 
-function Dashboard({ role }) {
-  const username = localStorage.getItem('username') || 'User';
+function Dashboard() {
+  const { user } = useAuth();
+  const username = user?.name || 'User';
+  const role = user?.role;
 
   const roleClass =
     role === 'student' ? 'dashboard-student' :
     role === 'teacher_level2' ? 'dashboard-teacher' :
-    role === 'teacher_level1' ? 'dashboard-hod' : '';
+    role === 'teacher_level1' ? 'dashboard-hod' :
+    role === 'admin' ? 'dashboard-admin' : '';
   const headerClass =
     role === 'student' ? 'dashboard-header student' :
     role === 'teacher_level2' ? 'dashboard-header teacher' :
-    role === 'teacher_level1' ? 'dashboard-header hod' : 'dashboard-header';
+    role === 'teacher_level1' ? 'dashboard-header hod' :
+    role === 'admin' ? 'dashboard-header admin' : 'dashboard-header';
 
-  const tabs = [
-    { name: 'Dashboard', path: '/home/dashboard' },
-    { name: 'Courses', path: '/home/courses' },
-    { name: 'Attendance', path: '/home/attendance' },
-    { name: 'Timetable', path: '/home/timetable' },
-    { name: 'Doubts', path: '/home/doubts' },
-    { name: 'Exams', path: '/home/exams' },
-    { name: 'Study Materials', path: '/home/materials' }
-  ];
+  const tabs = role === 'admin'
+    ? [
+        { name: 'Dashboard', path: '/home/dashboard' },
+        { name: 'Courses', path: '/home/courses' },
+        { name: 'Attendance', path: '/home/attendance' },
+        { name: 'Exams', path: '/home/exams' },
+        { name: 'Admin', path: '/home/admin' }
+      ]
+    : [
+        { name: 'Dashboard', path: '/home/dashboard' },
+        { name: 'Courses', path: '/home/courses' },
+        { name: 'Attendance', path: '/home/attendance' },
+        { name: 'Timetable', path: '/home/timetable' },
+        { name: 'Doubts', path: '/home/doubts' },
+        { name: 'Exams', path: '/home/exams' },
+        { name: 'Study Materials', path: '/home/materials' }
+      ];
 
   return (
     <div className={`dashboard-container ${roleClass}`}>
@@ -51,13 +65,14 @@ function Dashboard({ role }) {
       </nav>
 
       <Routes>
-        <Route path="dashboard" element={<DashboardMain role={role} />} />
+        <Route path="dashboard" element={<DashboardMain />} />
         <Route path="courses" element={<Courses />} />
         <Route path="attendance" element={<Attendance />} />
         <Route path="timetable" element={<Timetable />} />
         <Route path="doubts" element={<Doubts />} />
         <Route path="exams" element={<Exams />} />
         <Route path="materials" element={<StudyMaterials />} />
+        <Route path="admin" element={<React.Suspense fallback={null}><AdminLazy /></React.Suspense>} />
       </Routes>
     </div>
   );

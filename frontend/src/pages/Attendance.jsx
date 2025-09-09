@@ -1,4 +1,3 @@
-// src/pages/Attendance.jsx
 import React, { useState, useEffect } from 'react';
 import '../styles/Attendance.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';

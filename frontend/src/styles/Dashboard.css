@@ -167,13 +167,33 @@
 
 /* Role-based dashboard backgrounds */
 .dashboard-student {
-  background: linear-gradient(120deg, #e0f2fe 0%, #f0f9ff 100%);
+  background: linear-gradient(120deg, #fee2e2 0%, #fff5f5 100%); /* light red */
 }
+.dashboard-student .stat-card { background-color: #f87171; }
 .dashboard-teacher {
-  background: linear-gradient(120deg, #e6fbe8 0%, #f0fff4 100%);
+  background: linear-gradient(120deg, #dcfce7 0%, #f0fff4 100%); /* light green */
 }
 .dashboard-hod {
   background: linear-gradient(120deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Admin theme - light blue */
+.dashboard-admin {
+  background: linear-gradient(120deg, #e6f0ff 0%, #f2f8ff 100%);
+}
+.dashboard-header.admin {
+  color: #2563eb;
+}
+.navbar-admin {
+  background-color: #60a5fa;
+}
+
+.dashboard-admin .stat-card.blue,
+.dashboard-admin .stat-card.green,
+.dashboard-admin .stat-card.orange,
+.dashboard-admin .stat-card.purple,
+.dashboard-admin .quick-actions button {
+  background-color: #60a5fa;
 }
 
 .dashboard-header {
@@ -189,10 +209,13 @@
   color: #1e40af;
 }
 .dashboard-header.teacher {
-  color: #059669;
+  color: #059669; /* deep green text */
 }
 .dashboard-header.hod {
   color: #461811;
+}
+.dashboard-header.admin {
+  color: #2563eb;
 }
 
 .dashboard-header h2 {
@@ -207,13 +230,13 @@
 /* Student accent */
 .dashboard-student .stat-card.blue,
 .dashboard-student .quick-actions button {
-  background-color: #2563eb;
+  background-color: #f87171; /* soft red */
 }
 
 /* Teacher accent */
-.dashboard-teacher .stat-card.green,
+.dashboard-teacher .stat-card,
 .dashboard-teacher .quick-actions button {
-  background-color: #059669;
+  background-color: #34d399; /* make all teacher actions/buttons green */
 }
 
 /* HOD accent */

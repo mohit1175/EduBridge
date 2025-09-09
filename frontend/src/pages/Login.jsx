@@ -1,39 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import users from '../data/users.json';
+import { useAuth } from '../contexts/AuthContext';
 import '../styles/Login.css';
+
+// Demo users for quick testing
+const demoUsers = [
+  { email: 'john@student.com', password: 'password123', role: 'student', name: 'John Doe' },
+  { email: 'jane@teacher.com', password: 'password123', role: 'teacher_level2', name: 'Jane Smith' },
+  { email: 'admin@hod.com', password: 'password123', role: 'teacher_level1', name: 'Dr. Admin' }
+];
 
 function Login() {
   const [selectedUserIdx, setSelectedUserIdx] = useState('');
   const [formData, setFormData] = useState({
-    role: '',
     email: '',
     password: '',
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const emailToName = {
-    'a@a.com': 'Alice',
-    'b@b.com': 'Bob',
-    'c@c.com': 'Mohit',
-    'ram@a.com': 'ram',
-    'shyam@a.com': 'shyam',
-    'krishna@a.com': 'krishna'
-  };
+  const { login } = useAuth();
 
   const handleUserSelect = (e) => {
     const idx = e.target.value;
     setSelectedUserIdx(idx);
     if (idx !== '') {
-      const user = users[idx];
+      const user = demoUsers[idx];
       setFormData({
-        role: user.role,
         email: user.email,
         password: user.password
       });
     } else {
-      setFormData({ role: '', email: '', password: '' });
+      setFormData({ email: '', password: '' });
     }
     setError('');
   };
@@ -43,19 +41,19 @@ function Login() {
     setError('');
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const user = users.find(
-      u => u.email === formData.email && u.password === formData.password && u.role === formData.role
-    );
-    if (!user) {
-      setError('Invalid credentials or role.');
-      return;
+    setLoading(true);
+    setError('');
+
+    try {
+      await login(formData.email, formData.password);
+      navigate('/home/dashboard');
+    } catch (error) {
+      setError(error.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
-    localStorage.setItem('userRole', user.role);
-    const name = emailToName[user.email] || user.email.split('@')[0];
-    localStorage.setItem('username', name);
-    navigate('/home/dashboard');
   };
 
   return (
@@ -66,8 +64,10 @@ function Login() {
           <label htmlFor="user-select"><strong>Demo Users:</strong>&nbsp;</label>
           <select id="user-select" value={selectedUserIdx} onChange={handleUserSelect} style={{ padding: 6, borderRadius: 6 }}>
             <option value="">Select User</option>
-            {users.map((u, i) => (
-              <option key={u.email} value={i}>{u.role.replace('teacher_level1','HOD').replace('teacher_level2','Teacher').replace('student','Student')} - {u.email}</option>
+            {demoUsers.map((u, i) => (
+              <option key={u.email} value={i}>
+                {u.role.replace('teacher_level1','HOD').replace('teacher_level2','Teacher').replace('student','Student')} - {u.email}
+              </option>
             ))}
           </select>
         </div>
@@ -96,7 +96,9 @@ function Login() {
               autoComplete="current-password"
             />
           </div>
-          <button type="submit" className="login-btn">Login</button>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
           {error && <div className="login-error">{error}</div>}
         </form>
       </div>

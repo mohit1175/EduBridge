@@ -1,0 +1,11 @@
+courseCode,courseName,department,semester,credits,teacherEmail
+CS101,Data Structures,Computer Science,3,4,jane@teacher.com
+CS102,Algorithms,Computer Science,3,4,jane@teacher.com
+CS201,Operating Systems,Computer Science,4,4,jane@teacher.com
+CS202,Software Engineering,Computer Science,4,3,jane@teacher.com
+CS301,Database Management Systems,Computer Science,5,3,jane@teacher.com
+CS302,Computer Networks,Computer Science,5,3,jane@teacher.com
+CS401,Machine Learning,Computer Science,7,4,jane@teacher.com
+MA101,Calculus I,Mathematics,1,4,jane@teacher.com
+MA102,Linear Algebra,Mathematics,2,4,jane@teacher.com
+MA201,Probability and Statistics,Mathematics,3,4,jane@teacher.com

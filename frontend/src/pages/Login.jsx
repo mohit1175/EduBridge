@@ -27,6 +27,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showChange, setShowChange] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -108,22 +109,20 @@ function Login() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h2>Welcome to EduBridge</h2>
-        <div className="demo-select-wrap">
-          <label htmlFor="user-select"><strong>Demo Users:</strong>&nbsp;</label>
-          <select id="user-select" className="demo-select" value={selectedUserIdx} onChange={handleUserSelect}>
-            <option value="">Select user</option>
-            {demoUsers.map((u, i) => (
-              <option key={u.email} value={i}>
-                {u.role.replace('teacher_level1','HOD').replace('teacher_level2','Teacher').replace('student','Student')} - {u.email}
-              </option>
-            ))}
-          </select>
+    <div className="auth-hero">
+      <div className="auth-card">
+        <div className="auth-badge">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="#111827" strokeWidth="1.5" strokeLinecap="round"/>
+            <rect x="4" y="13" width="16" height="8" rx="3" stroke="#111827" strokeWidth="1.5"/>
+          </svg>
         </div>
-        <form onSubmit={handleLogin}>
-          <div className="input-group">
+        <h2 className="auth-title">Sign in with email</h2>
+        <p className="auth-sub">Make a new doc to bring your words, data, and teams together. For free</p>
+
+        <form onSubmit={handleLogin} className="auth-form">
+          <label className="field">
+            <span className="icon" aria-hidden="true"></span>
             <input
               type="email"
               name="email"
@@ -133,8 +132,9 @@ function Login() {
               required
               autoComplete="username"
             />
-          </div>
-          <div className="input-group">
+          </label>
+          <label className="field">
+            <span className="icon" aria-hidden="true"></span>
             <input
               type={showPassword ? 'text' : 'password'}
               name="password"
@@ -147,29 +147,42 @@ function Login() {
             <button type="button" className="toggle-pass" onClick={() => setShowPassword(v => !v)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
               <EyeIcon open={showPassword} />
             </button>
+          </label>
+          <div className="row-links">
+            <button type="button" className="link-ghost" onClick={() => setShowChange(s => !s)}>Change password</button>
+            <Link to="/forgot-password" className="link-ghost">Forgot password?</Link>
           </div>
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+          <button type="submit" className="cta" disabled={loading}>
+            {loading ? 'Signing in…' : 'Get Started'}
           </button>
           {error && <div className="login-error">{error}</div>}
         </form>
 
-        <div className="divider" role="separator" aria-label="Change password" />
+        {showChange && (
+          <form className="change-pass" onSubmit={handleChangePassword}>
+            <div className="dashes" aria-hidden="true" />
+            <h3>Change password</h3>
+            <label className="field"><input type="email" placeholder="Account email" value={changeEmail} onChange={(e)=>setChangeEmail(e.target.value)} required /></label>
+            <label className="field"><input type="password" placeholder="Current password" value={oldPass} onChange={(e)=>setOldPass(e.target.value)} required /></label>
+            <label className="field"><input type="password" placeholder="New password (min 6)" value={newPass} onChange={(e)=>setNewPass(e.target.value)} required /></label>
+            <button type="submit" className="cta secondary" disabled={changing}>{changing ? 'Updating…' : 'Update Password'}</button>
+            {changeMsg && <div className="login-error" style={{ marginTop: 8 }}>{changeMsg}</div>}
+          </form>
+        )}
 
-        <form className="change-pass" onSubmit={handleChangePassword}>
-          <h3>Change password</h3>
-          <div className="input-group">
-            <input type="email" placeholder="Account email" value={changeEmail} onChange={(e)=>setChangeEmail(e.target.value)} required />
-          </div>
-          <div className="input-group">
-            <input type="password" placeholder="Current password" value={oldPass} onChange={(e)=>setOldPass(e.target.value)} required />
-          </div>
-          <div className="input-group">
-            <input type="password" placeholder="New password (min 6)" value={newPass} onChange={(e)=>setNewPass(e.target.value)} required />
-          </div>
-          <button type="submit" disabled={changing}>{changing ? 'Updating...' : 'Update Password'}</button>
-          {changeMsg && <div className="login-error" style={{ marginTop: 8 }}>{changeMsg}</div>}
-        </form>
+     
+
+        <div className="demo-select-wrap compact">
+          <label htmlFor="user-select"><strong>Demo:</strong></label>
+          <select id="user-select" className="demo-select" value={selectedUserIdx} onChange={handleUserSelect}>
+            <option value="">Select user</option>
+            {demoUsers.map((u, i) => (
+              <option key={u.email} value={i}>
+                {u.role.replace('teacher_level1','HOD').replace('teacher_level2','Teacher').replace('student','Student')} - {u.email}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );

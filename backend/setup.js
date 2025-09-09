@@ -1,6 +1,9 @@
 // Setup script to initialize the database with sample data
 require('dotenv').config();
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
+const { parse } = require('csv-parse/sync');
 const User = require('./models/User');
 const Course = require('./models/Course');
 const ExamConfig = require('./models/ExamConfig');
@@ -8,29 +11,89 @@ const Doubt = require('./models/Doubt');
 const Timetable = require('./models/Timetable');
 
 const sampleUsers = [
+  // Teachers (HOD + 4 teachers)
   {
-    name: 'John Doe',
-    email: 'john@student.com',
+    name: 'ashish gavande',
+    email: 'ashish.gavande@teacher.com',
     password: 'password123',
-    role: 'student',
-    rollNumber: 'STU001',
-    department: 'Computer Science',
-    semester: 5
+    role: 'teacher_level1', // HOD
+    department: 'Computer Science'
   },
   {
-    name: 'Jane Smith',
-    email: 'jane@teacher.com',
+    name: 'jayashree ravee',
+    email: 'jayashree.ravee@teacher.com',
     password: 'password123',
     role: 'teacher_level2',
     department: 'Computer Science'
   },
   {
-    name: 'Dr. Admin',
-    email: 'admin@hod.com',
+    name: 'omkar mohite',
+    email: 'omkar.mohite@teacher.com',
     password: 'password123',
-    role: 'teacher_level1',
+    role: 'teacher_level2',
     department: 'Computer Science'
   },
+  {
+    name: 'amol jogalekar',
+    email: 'amol.jogalekar@teacher.com',
+    password: 'password123',
+    role: 'teacher_level2',
+    department: 'Computer Science'
+  },
+  {
+    name: 'neelam jain',
+    email: 'neelam.jain@teacher.com',
+    password: 'password123',
+    role: 'teacher_level2',
+    department: 'Computer Science'
+  },
+  // Students
+  {
+    name: 'Mohit',
+    email: 'mohit@student.com',
+    password: 'password123',
+    role: 'student',
+    rollNumber: 'STU101',
+    department: 'Computer Science',
+    semester: 5
+  },
+  {
+    name: 'Yashvi',
+    email: 'yashvi@student.com',
+    password: 'password123',
+    role: 'student',
+    rollNumber: 'STU102',
+    department: 'Computer Science',
+    semester: 5
+  },
+  {
+    name: 'Neha',
+    email: 'neha@student.com',
+    password: 'password123',
+    role: 'student',
+    rollNumber: 'STU103',
+    department: 'Computer Science',
+    semester: 5
+  },
+  {
+    name: 'Sahaj',
+    email: 'sahaj@student.com',
+    password: 'password123',
+    role: 'student',
+    rollNumber: 'STU104',
+    department: 'Computer Science',
+    semester: 5
+  },
+  {
+    name: 'Pratham',
+    email: 'pratham@student.com',
+    password: 'password123',
+    role: 'student',
+    rollNumber: 'STU105',
+    department: 'Computer Science',
+    semester: 5
+  },
+  // Platform Admin (kept for access)
   {
     name: 'Super Admin',
     email: 'admin@college.com',
@@ -103,7 +166,6 @@ async function setupDatabase() {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/edubridge');
     console.log('✅ Connected to MongoDB');
 
-    // Clear existing data
     console.log('🧹 Clearing existing data...');
   await User.deleteMany({});
     await Course.deleteMany({});
@@ -111,33 +173,8 @@ async function setupDatabase() {
     await Doubt.deleteMany({});
   await Timetable.deleteMany({});
 
-    // Create extra sample students for CS semester 5
-    const extraStudents = Array.from({ length: 10 }, (_, i) => {
-      const n = (i + 1).toString().padStart(2, '0');
-      return {
-        name: `CS5 Student ${n}`,
-        email: `cs5student${n}@college.edu`,
-        password: 'password123',
-        role: 'student',
-        rollNumber: `CS05-${n}`,
-        department: 'Computer Science',
-        semester: 5
-      };
-    });
-    // Also add CS semester-2 students for MSc courses
-    const extraStudentsSem2 = Array.from({ length: 10 }, (_, i) => {
-      const n = (i + 1).toString().padStart(2, '0');
-      return {
-        name: `CS2 Student ${n}`,
-        email: `cs2student${n}@college.edu`,
-        password: 'password123',
-        role: 'student',
-        rollNumber: `CS02-${n}`,
-        department: 'Computer Science',
-        semester: 2
-      };
-    });
-    const usersToCreate = [...sampleUsers, ...extraStudents, ...extraStudentsSem2];
+  // Only create explicitly requested users
+  const usersToCreate = [...sampleUsers];
 
     // Create sample users (ensure password hashing runs)
     console.log('👥 Creating sample users...');
@@ -149,55 +186,47 @@ async function setupDatabase() {
     }
     console.log(`✅ Created ${createdUsers.length} users`);
 
-    // Create sample courses
-    console.log('📚 Creating sample courses...');
-    const teacher = createdUsers.find(user => user.role === 'teacher_level2');
+  // Create sample courses
+  console.log('📚 Creating sample courses...');
+  const teacher = createdUsers.find(user => user.role === 'teacher_level2');
+  const hodUser = createdUsers.find(user => user.role === 'teacher_level1');
     const coursesWithInstructor = [
       // BSc subjects for teacher (semester 5)
-      { ...sampleCourses[0], courseName: 'Web Development', courseCode: 'CS-BSC-WD', program: 'BSc', instructor: teacher._id, semester: 5, credits: 4 },
-      { ...sampleCourses[2], courseName: 'Machine Learning', courseCode: 'CS-BSC-ML', program: 'BSc', instructor: teacher._id, semester: 5, credits: 4 },
+  { ...sampleCourses[0], courseName: 'Web Development', courseCode: 'CS-BSC-WD', program: 'BSc', instructor: teacher._id, semester: 5, credits: 4, hod: hodUser?._id },
+  { ...sampleCourses[2], courseName: 'Machine Learning', courseCode: 'CS-BSC-ML', program: 'BSc', instructor: teacher._id, semester: 5, credits: 4, hod: hodUser?._id },
       // 2-credit lab subject (semester 5)
-      { ...sampleCourses[0], courseName: 'Cloud Computing Lab', courseCode: 'CS-BSC-CCLAB', program: 'BSc', instructor: teacher._id, semester: 5, credits: 2, description: 'Hands-on cloud lab exercises' },
+  { ...sampleCourses[0], courseName: 'Cloud Computing Lab', courseCode: 'CS-BSC-CCLAB', program: 'BSc', instructor: teacher._id, semester: 5, credits: 2, description: 'Hands-on cloud lab exercises', hod: hodUser?._id },
       // MSc subjects for teacher (semester 2)
-      { ...sampleCourses[1], courseName: 'Artificial Intelligence', courseCode: 'CS-MSC-AI', program: 'MSc', instructor: teacher._id, semester: 2, credits: 4 },
-      { ...sampleCourses[1], courseName: 'Advanced DBMS', courseCode: 'CS-MSC-ADBMS', program: 'MSc', instructor: teacher._id, semester: 2, credits: 4 }
+  { ...sampleCourses[1], courseName: 'Artificial Intelligence', courseCode: 'CS-MSC-AI', program: 'MSc', instructor: teacher._id, semester: 2, credits: 4, hod: hodUser?._id },
+  { ...sampleCourses[1], courseName: 'Advanced DBMS', courseCode: 'CS-MSC-ADBMS', program: 'MSc', instructor: teacher._id, semester: 2, credits: 4, hod: hodUser?._id }
     ];
     let createdCourses = await Course.insertMany(coursesWithInstructor);
     console.log(`✅ Created ${createdCourses.length} courses`);
 
-    // Assign different students per subject (course)
-    console.log('🔗 Enrolling students per course...');
+    // Assign students per course (using only the 5 specified students)
+    console.log('🔗 Enrolling specified students per course...');
     const allStudents = createdUsers.filter(u => u.role === 'student');
-    const cs5 = allStudents.filter(s => s.department === 'Computer Science' && s.semester === 5);
-    const cs2 = allStudents.filter(s => s.department === 'Computer Science' && s.semester === 2);
-
-    // For BSc courses (semester 5): split cs5 across two theory courses, and enroll all in lab
     const webDev = createdCourses.find(c => c.courseCode === 'CS-BSC-WD');
     const ml = createdCourses.find(c => c.courseCode === 'CS-BSC-ML');
     const cloudLab = createdCourses.find(c => c.courseCode === 'CS-BSC-CCLAB');
-    if (webDev && ml) {
-      const half = Math.ceil(cs5.length / 2);
-      await Course.findByIdAndUpdate(webDev._id, { students: cs5.slice(0, half).map(s => s._id) });
-      await Course.findByIdAndUpdate(ml._id, { students: cs5.slice(half).map(s => s._id) });
+    if (webDev) {
+      // First 3 students
+      await Course.findByIdAndUpdate(webDev._id, { students: allStudents.slice(0, 3).map(s => s._id) });
+    }
+    if (ml) {
+      // Last 2 students
+      await Course.findByIdAndUpdate(ml._id, { students: allStudents.slice(3, 5).map(s => s._id) });
     }
     if (cloudLab) {
-      await Course.findByIdAndUpdate(cloudLab._id, { students: cs5.map(s => s._id) });
-    }
-
-    // For MSc courses (semester 2): split cs2 across two courses
-    const ai = createdCourses.find(c => c.courseCode === 'CS-MSC-AI');
-    const adbms = createdCourses.find(c => c.courseCode === 'CS-MSC-ADBMS');
-    if (ai && adbms) {
-      const half2 = Math.ceil(cs2.length / 2);
-      await Course.findByIdAndUpdate(ai._id, { students: cs2.slice(0, half2).map(s => s._id) });
-      await Course.findByIdAndUpdate(adbms._id, { students: cs2.slice(half2).map(s => s._id) });
+      // All students attend lab
+      await Course.findByIdAndUpdate(cloudLab._id, { students: allStudents.map(s => s._id) });
     }
     // Refresh createdCourses with populated students for potential downstream use
     createdCourses = await Course.find({ _id: { $in: createdCourses.map(c => c._id) } });
 
-    // Create sample exam configs
+  // Create sample exam configs
     console.log('⚙️ Creating sample exam configurations...');
-    const hod = createdUsers.find(user => user.role === 'teacher_level1');
+  const hod = createdUsers.find(user => user.role === 'teacher_level1');
     const configsWithCreator = sampleExamConfigs.map(config => ({
       ...config,
       createdBy: hod._id
@@ -207,8 +236,7 @@ async function setupDatabase() {
 
     // Create sample doubts
     console.log('❓ Creating sample doubts...');
-    const student = createdUsers.find(u => u.role === 'student');
-    const hodUser = createdUsers.find(u => u.role === 'teacher_level1');
+  const student = createdUsers.find(u => u.role === 'student');
     const teacherUser = createdUsers.find(u => u.role === 'teacher_level2');
     await Doubt.insertMany([
       { student: student._id, course: 'Data Structures and Algorithms', subject: 'DSA Syllabus', question: 'Clarification on Unit 3 topics', description: 'Is AVL tree part of Unit 3?', category: 'marks', assignedTo: teacherUser._id, priority: 'medium' },
@@ -240,12 +268,126 @@ async function setupDatabase() {
     await Timetable.insertMany(entries);
     console.log(`✅ Created ${entries.length} timetable entries`);
 
+    // ===== Optional: Apply bulk operations from CSVs if present =====
+    console.log('🧩 Applying CSV-driven assignments if templates are present...');
+    const rootDir = path.resolve(__dirname, '..');
+    const csvPaths = {
+      instructors: path.join(rootDir, 'sample_course_assignments.csv'),
+      hods: path.join(rootDir, 'frontend', 'hod_assignments.csv'),
+      enrollments: path.join(rootDir, 'frontend', 'student_enrollments.csv')
+    };
+
+    // Helper to safely parse CSV with headers
+    const readCsv = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const rows = parse(content, { columns: true, skip_empty_lines: true, bom: true, trim: true });
+        return rows;
+      } catch (e) {
+        console.warn(`⚠️  Could not parse CSV at ${filePath}:`, e.message);
+        return null;
+      }
+    };
+
+    // Apply instructor assignments
+    if (fs.existsSync(csvPaths.instructors)) {
+      const rows = readCsv(csvPaths.instructors) || [];
+      let assigned = 0, skipped = 0;
+      for (const r of rows) {
+        try {
+          const courseCode = (r.courseCode || r.code || '').trim();
+          const courseName = (r.courseName || r.subject || r.course || '').trim();
+          const teacherEmail = (r.teacherEmail || r.email || r.teacher || '').trim().toLowerCase();
+          const teacherName = (r.teacherName || r.instructor || '').trim();
+          if (!courseCode && !courseName) { skipped++; continue; }
+          let course = await Course.findOne(courseCode ? { courseCode } : { courseName });
+          if (!course) { skipped++; continue; }
+          let instructor = null;
+          if (teacherEmail) instructor = await User.findOne({ email: teacherEmail, role: { $in: ['teacher_level1','teacher_level2'] } });
+          if (!instructor && teacherName) instructor = await User.findOne({ name: new RegExp('^' + teacherName.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&') + '$', 'i'), role: { $in: ['teacher_level1','teacher_level2'] } });
+          if (!instructor) { skipped++; continue; }
+          course.instructor = instructor._id;
+          await course.save();
+          assigned++;
+        } catch (_) { skipped++; }
+      }
+      console.log(`👩🏽‍🏫 Instructor CSV: assigned=${assigned}, skipped=${skipped}`);
+    } else {
+      console.log('👩🏽‍🏫 Instructor CSV not found, skipping.');
+    }
+
+    // Apply HOD assignments
+    if (fs.existsSync(csvPaths.hods)) {
+      const rows = readCsv(csvPaths.hods) || [];
+      let assigned = 0, skipped = 0;
+      for (const r of rows) {
+        try {
+          const courseCode = (r.courseCode || r.code || '').trim();
+          const courseName = (r.courseName || r.subject || '').trim();
+          const hodEmail = (r.hodEmail || r.email || '').trim().toLowerCase();
+          const hodName = (r.hodName || r.name || '').trim();
+          if (!courseCode && !courseName) { skipped++; continue; }
+          let course = await Course.findOne(courseCode ? { courseCode } : { courseName });
+          if (!course) { skipped++; continue; }
+          let hodUserCandidate = null;
+          if (hodEmail) hodUserCandidate = await User.findOne({ email: hodEmail, role: 'teacher_level1' });
+          if (!hodUserCandidate && hodName) hodUserCandidate = await User.findOne({ name: new RegExp('^' + hodName.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&') + '$', 'i'), role: 'teacher_level1' });
+          if (!hodUserCandidate) { skipped++; continue; }
+          course.hod = hodUserCandidate._id;
+          await course.save();
+          assigned++;
+        } catch (_) { skipped++; }
+      }
+      console.log(`🏫 HOD CSV: assigned=${assigned}, skipped=${skipped}`);
+    } else {
+      console.log('🏫 HOD CSV not found, skipping.');
+    }
+
+    // Apply student enrollments
+    if (fs.existsSync(csvPaths.enrollments)) {
+      const rows = readCsv(csvPaths.enrollments) || [];
+      let enrolled = 0, skipped = 0, already = 0;
+      for (const r of rows) {
+        try {
+          const ref = (r.student || r.email || r.roll || r.rollNumber || r.name || '').trim();
+          const courseCode = (r.courseCode || r.code || '').trim();
+          const courseName = (r.courseName || r.subject || '').trim();
+          if (!ref) { skipped++; continue; }
+          const course = await Course.findOne(courseCode ? { courseCode } : { courseName });
+          if (!course) { skipped++; continue; }
+          const lc = ref.toLowerCase();
+          let student = await User.findOne({ email: lc });
+          if (!student) student = await User.findOne({ rollNumber: ref });
+          if (!student) student = await User.findOne({ name: new RegExp('^' + ref.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&') + '$', 'i') });
+          if (!student) { skipped++; continue; }
+          if (!Array.isArray(course.students)) course.students = [];
+          const exists = course.students.find(id => id.toString() === student._id.toString());
+          if (exists) { already++; continue; }
+          course.students.push(student._id);
+          await course.save();
+          enrolled++;
+        } catch (_) { skipped++; }
+      }
+      console.log(`📥 Enrollment CSV: enrolled=${enrolled}, already=${already}, skipped=${skipped}`);
+    } else {
+      console.log('📥 Enrollment CSV not found, skipping.');
+    }
+
     console.log('\n🎉 Database setup completed successfully!');
-    console.log('\n📋 Sample Login Credentials:');
-    console.log('Student: john@student.com / password123');
-    console.log('Teacher: jane@teacher.com / password123');
-    console.log('HOD: admin@hod.com / password123');
-    console.log('Admin: admin@college.com / password123');
+  console.log('\n📋 Sample Login Credentials:');
+  console.log('HOD: ashish.gavande@teacher.com / password123');
+  console.log('Teachers:');
+  console.log(' - jayashree.ravee@teacher.com / password123');
+  console.log(' - omkar.mohite@teacher.com / password123');
+  console.log(' - amol.jogalekar@teacher.com / password123');
+  console.log(' - neelam.jain@teacher.com / password123');
+  console.log('Students:');
+  console.log(' - mohit@student.com / password123');
+  console.log(' - yashvi@student.com / password123');
+  console.log(' - neha@student.com / password123');
+  console.log(' - sahaj@student.com / password123');
+  console.log(' - pratham@student.com / password123');
+  console.log('Admin: admin@college.com / password123');
 
   } catch (error) {
     console.error('❌ Setup failed:', error);

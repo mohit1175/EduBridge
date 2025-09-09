@@ -24,33 +24,30 @@
   letter-spacing: 0.01em;
 }
 
-form select,
+.demo-select-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.demo-select { padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; background: #f8fafc; }
+
 form input {
   width: 100%;
-  padding: 22px;             /* larger padding for better usability */
-  margin: 18px 0 0 0;
-  border: 1px solid #cbd5e1;
-  border-radius: 12px;
+  padding: 20px;             /* larger padding for better usability */
+  margin: 12px 0 0 0;
+  border: none;              /* remove inner border to avoid double border */
+  border-radius: 0;
   font-size: 1.35em;        /* larger font size */
   font-weight: 500;
   background: #f8fafc;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: color 0.2s;
 }
 
-form input:focus,
-form select:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px #dbeafe;
-  outline: none;
-}
+form input:focus { outline: none; }
 
 .input-group {
   display: flex;
   align-items: center;
   border: 1px solid #cbd5e1;
   border-radius: 12px;
-  padding: 0 22px;
-  margin: 18px 0 0 0;
+  padding: 0 14px;
+  margin: 16px 0 0 0;
   background: #f8fafc;
   transition: border-color 0.2s;
 }
@@ -59,21 +56,13 @@ form select:focus {
   border-color: #6366f1;
 }
 
-.input-group input {
-  border: none;
-  outline: none;
-  width: 100%;
-  padding: 22px 0;
-  background: transparent;
-  font-size: 1.35em;
-  font-weight: 500;
-}
+.input-group input { width: 100%; background: transparent; }
 
-.input-group span {
-  margin-right: 16px;
-  font-size: 1.55em;
-  color: #818cf8;
-}
+.toggle-pass { background: transparent; border: none; color: #64748b; cursor: pointer; padding: 8px 6px; }
+.toggle-pass:hover { color: #111827; }
+
+.divider { height: 1px; background: #e5e7eb; margin: 26px 0; }
+.change-pass h3 { margin: 0 0 10px 0; color: #334155; font-size: 1.1em; font-weight: 600; }
 
 .extras {
   display: flex;
@@ -96,7 +85,8 @@ form select:focus {
   text-decoration: underline;
 }
 
-button {
+.login-card button,
+.login-card .login-btn {
   margin-top: 32px;
   width: 100%;
   padding: 22px;
@@ -112,8 +102,8 @@ button {
   transition: background 0.2s, transform 0.15s;
 }
 
-button:hover,
-button:focus {
+.login-card button:hover,
+.login-card button:focus {
   background: #3730a3;
   transform: translateY(-2px) scale(1.02);
 }

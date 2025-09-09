@@ -118,7 +118,7 @@ function Login() {
           </svg>
         </div>
         <h2 className="auth-title">Sign in with email</h2>
-        <p className="auth-sub">Make a new doc to bring your words, data, and teams together. For free</p>
+        <p className="auth-sub">EduBridge</p>
 
         <form onSubmit={handleLogin} className="auth-form">
           <label className="field">

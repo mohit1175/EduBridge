@@ -272,4 +272,12 @@
     box-shadow: 0 4px 16px rgba(99,102,241,0.18);
   }
 
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .exams-page { padding: 12px; }
+  .exam-filters { flex-wrap: wrap; gap: 10px; }
+  .links-grid, .internal-grid { grid-template-columns: 1fr; }
+  .download-btn-modern { width: 100%; text-align: center; }
+}
+
   

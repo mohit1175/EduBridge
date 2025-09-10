@@ -112,13 +112,10 @@ function Login() {
     <div className="auth-hero">
       <div className="auth-card">
         <div className="auth-badge">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="#111827" strokeWidth="1.5" strokeLinecap="round"/>
-            <rect x="4" y="13" width="16" height="8" rx="3" stroke="#111827" strokeWidth="1.5"/>
-          </svg>
+          
         </div>
-        <h2 className="auth-title">Sign in with email</h2>
-        <p className="auth-sub">EduBridge</p>
+        <h2 className="auth-title">EduBridge</h2>
+        <p className="auth-sub">Sign in with email</p>
 
         <form onSubmit={handleLogin} className="auth-form">
           <label className="field">

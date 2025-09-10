@@ -176,6 +176,16 @@
   border: 1px solid #e5e7eb;
 }
 
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .courses-page { padding: 12px; }
+  .courses-header { flex-direction: column; align-items: stretch; gap: 10px; }
+  .courses-filters { flex-wrap: wrap; gap: 8px; }
+  .courses-header .btn-primary { width: 100%; }
+  .course-actions { flex-wrap: wrap; }
+  .modal-content { margin: 0 8px; padding: 16px; }
+}
+
 .form-group {
   display: flex;
   flex-direction: column;

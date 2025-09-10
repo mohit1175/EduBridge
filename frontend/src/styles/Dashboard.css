@@ -260,3 +260,8 @@
   }
 }
 
+@media (max-width: 640px) {
+  .dashboard-container { padding: 12px; }
+  .dashboard-tabs { flex-wrap: wrap; gap: 8px; }
+}
+

@@ -75,4 +75,10 @@
   .generate-btn:hover {
     background-color: #2563eb;
   }
+
+  @media (max-width: 640px) {
+    .builder-container { margin: 16px auto; padding: 18px; }
+    .builder-section input[type="time"] { width: 100%; }
+    .generate-btn { width: 100%; }
+  }
   

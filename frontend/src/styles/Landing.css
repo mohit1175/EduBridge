@@ -98,6 +98,15 @@
     color: white;
     flex-wrap: wrap;
   }
+
+  @media (max-width: 640px) {
+    .landing-header { padding: 12px 16px; }
+    .nav-menu a { margin: 0 8px; }
+    .hero { padding: 40px 16px; }
+    .hero h1 { font-size: 1.8rem; }
+    .features-grid { padding: 16px; gap: 12px; }
+    .footer { padding: 20px 12px; }
+  }
   
   .footer-col {
     margin: 10px;

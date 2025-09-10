@@ -33,12 +33,15 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 14px;
-  align-items: end;
+  align-items: start; /* align fields from the top to keep labels even */
+  grid-auto-rows: minmax(0, auto);
 }
 
-.sm-form .sm-field { grid-column: span 4; }
-.sm-form .sm-field-wide { grid-column: span 8; }
-.sm-form .sm-field-file { grid-column: span 4; }
+.sm-form .sm-field { grid-column: span 6; }
+/* Make Description take full width */
+.sm-form .sm-field-wide { grid-column: 1 / -1; }
+/* Place File on the next row, full width below Description */
+.sm-form .sm-field-file { grid-column: 1 / -1; }
 
 @media (max-width: 900px) {
   .sm-form { grid-template-columns: repeat(6, 1fr); }
@@ -53,19 +56,55 @@
   font-size: 13px;
 }
 
+/* Ensure each field stacks label over control */
+.sm-field, .sm-field-wide, .sm-field-file {
+  display: flex;
+  flex-direction: column;
+}
+
 .sm-input, .sm-select, .sm-file {
   width: 100%;
+  height: 42px; /* consistent height across controls */
   padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 10px;
   background: #fff;
   outline: none;
   transition: box-shadow .2s ease, border-color .2s ease;
+  box-sizing: border-box;
 }
 
 .sm-input:focus, .sm-select:focus, .sm-file:focus {
   border-color: #6366f1;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.16);
+}
+
+/* Style native file input to match */
+.sm-file {
+  padding: 0 12px; /* vertical center the control */
+  display: flex;
+  align-items: center;
+}
+.sm-file::file-selector-button {
+  margin-right: 10px;
+  border: 0;
+  background: #eef2ff;
+  color: #3730a3;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+/* Safari fallback */
+.sm-file::-webkit-file-upload-button {
+  margin-right: 10px;
+  border: 0;
+  background: #eef2ff;
+  color: #3730a3;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .sm-actions { grid-column: span 12; }
@@ -124,4 +163,13 @@
   color: #64748b;
   text-align: center;
   margin-top: 40px;
+}
+
+/* Small screens: stack everything to full width */
+@media (max-width: 640px) {
+  .sm-form { grid-template-columns: repeat(12, 1fr); }
+  .sm-form .sm-field,
+  .sm-form .sm-field-wide,
+  .sm-form .sm-field-file,
+  .sm-actions { grid-column: span 12; }
 }

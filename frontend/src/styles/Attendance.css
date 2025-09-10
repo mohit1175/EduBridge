@@ -205,5 +205,7 @@
     .attendance-records table {
       font-size: 0.95rem;
     }
+  .attendance-page { padding: 12px; }
+  .attendance-filters { flex-wrap: wrap; gap: 10px; }
   }
   

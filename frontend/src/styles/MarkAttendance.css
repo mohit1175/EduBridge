@@ -48,4 +48,6 @@
 @media (max-width: 768px){
 	.ma-toolbar{grid-template-columns:1fr}
 	.ma-toolbar-right{justify-content:space-between}
+	.ma-table-wrap{max-height:none}
+	.ma-submit{width:100%}
 }

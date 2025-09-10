@@ -58,5 +58,7 @@
 @media (max-width: 768px){
   .tt-time-col{width:90px}
   .create-timetable-modal .form-row{grid-template-columns:1fr}
+  .timetable-page{padding:12px}
+  .timetable-header{flex-direction:column;align-items:flex-start;gap:8px}
 }
   

@@ -1,0 +1,4 @@
+title,description,visibleTo,createdByEmail,expiresAt
+Department Seminar on AI Ethics,"Guest lecture by industry expert on AI ethics this Friday.",all,ashish.gavande@teacher.com,2025-09-25
+Lab Maintenance,"Cloud lab will be under maintenance on Saturday 2-4 PM.",student|teacher_level2|teacher_level1,ashish.gavande@teacher.com,2025-09-21
+Submission Reminder,"Submit Web Development assignment 2 by Sunday midnight.",student,ashish.gavande@teacher.com,2025-09-23

@@ -40,6 +40,13 @@ const courseSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  // New: support multiple instructors (co-teaching). Keep single instructor for backward compatibility.
+  instructors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
   // Optional HOD owner for the course
   hod: {
     type: mongoose.Schema.Types.ObjectId,
@@ -63,6 +70,23 @@ const courseSchema = new mongoose.Schema({
   ]
 }, {
   timestamps: true
+});
+
+// Keep instructor and instructors in sync where possible
+courseSchema.pre('save', function(next) {
+  try {
+    // Ensure primary instructor is included in instructors
+    if (this.instructor) {
+      this.instructors = this.instructors || [];
+      const has = this.instructors.find(id => String(id) === String(this.instructor));
+      if (!has) this.instructors.unshift(this.instructor);
+    }
+    // If no primary but have instructors, set the first as primary
+    if (!this.instructor && Array.isArray(this.instructors) && this.instructors.length) {
+      this.instructor = this.instructors[0];
+    }
+  } catch(_) {}
+  next();
 });
 
 module.exports = mongoose.model('Course', courseSchema);

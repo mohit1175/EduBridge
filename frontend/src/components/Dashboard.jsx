@@ -9,7 +9,10 @@ import Exams from '../pages/ExamsNew';
 import DashboardMain from './DashboardMain';
 import StudyMaterials from '../pages/StudyMaterials';
 import '../styles/Dashboard.css';
+
 const AdminLazy = React.lazy(() => import('../pages/Admin'));
+const NoticesAdmin = React.lazy(() => import('../pages/NoticesAdmin'));
+const AdminLogs = React.lazy(() => import('../pages/AdminLogs'));
 
 function Dashboard() {
   const { user } = useAuth();
@@ -33,7 +36,9 @@ function Dashboard() {
         { name: 'Courses', path: '/home/courses' },
         { name: 'Attendance', path: '/home/attendance' },
         { name: 'Exams', path: '/home/exams' },
-        { name: 'Admin', path: '/home/admin' }
+    { name: 'Notices', path: '/home/notices-admin' },
+    { name: 'Admin Logs', path: '/home/admin-logs' },
+    { name: 'Admin', path: '/home/admin' }
       ]
     : [
         { name: 'Dashboard', path: '/home/dashboard' },
@@ -73,6 +78,8 @@ function Dashboard() {
         <Route path="exams" element={<Exams />} />
         <Route path="materials" element={<StudyMaterials />} />
         <Route path="admin" element={<React.Suspense fallback={null}><AdminLazy /></React.Suspense>} />
+    <Route path="notices-admin" element={<React.Suspense fallback={null}><NoticesAdmin /></React.Suspense>} />
+    <Route path="admin-logs" element={<React.Suspense fallback={null}><AdminLogs /></React.Suspense>} />
       </Routes>
     </div>
   );

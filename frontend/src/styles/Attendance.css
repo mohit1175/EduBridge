@@ -134,6 +134,33 @@
   .attendance-hod {
     background: linear-gradient(120deg, #ede9fe 0%, #f5f3ff 100%);
   }
+
+  /* Admin role wrapper is provided by Home.jsx as .dashboard-admin */
+  .dashboard-admin .attendance-page {
+    background: linear-gradient(120deg, #e6f0ff 0%, #f2f8ff 100%);
+  }
+
+  /* Make all attendance stat cards blue for admin, matching Course Statistics */
+  .dashboard-admin .attendance-page .stat-card {
+    background-color: #60a5fa;
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
+  .dashboard-admin .attendance-page .stat-card:hover,
+  .dashboard-admin .attendance-page .stat-card:focus {
+    box-shadow: 0 8px 32px rgba(80,80,180,0.16), 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  /* HOD: unify attendance stat cards to grey */
+  .dashboard-hod .attendance-page .stat-card {
+    background-color: #64748b; /* slate/grey */
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
+  .dashboard-hod .attendance-page .stat-card:hover,
+  .dashboard-hod .attendance-page .stat-card:focus {
+    box-shadow: 0 8px 32px rgba(100,116,139,0.20), 0 2px 8px rgba(0,0,0,0.08);
+  }
   
   /* Role-based badge and progress bar colors */
   .attendance-student .badge.green,

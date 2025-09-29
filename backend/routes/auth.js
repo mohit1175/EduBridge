@@ -165,7 +165,16 @@ router.get('/users', auth, async (req, res) => {
   try {
     const { role, department } = req.query;
     const query = {};
-    if (role) query.role = Array.isArray(role) ? { $in: role } : role;
+    // Support role as array or comma-separated string (e.g., role=teacher_level1,teacher_level2)
+    if (role) {
+      if (Array.isArray(role)) {
+        query.role = { $in: role };
+      } else if (typeof role === 'string' && role.includes(',')) {
+        query.role = { $in: role.split(',').map(r => r.trim()).filter(Boolean) };
+      } else {
+        query.role = role;
+      }
+    }
     if (department) query.department = department;
     const users = await User.find(query).select('name email role department semester');
     res.json(users);

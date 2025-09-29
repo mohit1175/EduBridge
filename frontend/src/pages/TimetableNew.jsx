@@ -145,6 +145,21 @@ function TimetableNew() {
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+  // Derived options: Year/Part by program
+  const termLabel = newEntry.program === 'BSc' ? 'Year' : (newEntry.program === 'MSc' ? 'Part' : 'Term');
+  const termOptions = (() => {
+    if (newEntry.program === 'BSc') return [
+      { value: 1, label: 'First Year' },
+      { value: 2, label: 'Second Year' },
+      { value: 3, label: 'Third Year' },
+    ];
+    if (newEntry.program === 'MSc') return [
+      { value: 1, label: 'Part 1' },
+      { value: 2, label: 'Part 2' },
+    ];
+    return Array.from({ length: 8 }, (_, i) => ({ value: i + 1, label: `Term ${i + 1}` }));
+  })();
+
   // Helpers to build time slots and rowSpan mapping
   const toMinutes = (t) => {
     if (!t) return 0;
@@ -273,11 +288,11 @@ function TimetableNew() {
                       <input type="text" value={newEntry.department} onChange={(e) => setNewEntry({ ...newEntry, department: e.target.value })} required />
                     </div>
                     <div className="form-group">
-                      <label>Term:</label>
+                      <label>{termLabel}:</label>
                       <select value={newEntry.term} onChange={(e) => setNewEntry({ ...newEntry, term: e.target.value })}>
-                        <option value="">Select Term</option>
-                        {[1,2,3,4,5,6,7,8].map(t => (
-                          <option key={t} value={t}>Term {t}</option>
+                        <option value="">Select {termLabel}</option>
+                        {termOptions.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
                         ))}
                       </select>
                     </div>
@@ -289,7 +304,21 @@ function TimetableNew() {
                   <div className="form-row two">
                     <div className="form-group">
                       <label>Course:</label>
-                      <select value={newEntry.course} onChange={(e) => setNewEntry({ ...newEntry, course: e.target.value })} required>
+                      <select
+                        value={newEntry.course}
+                        onChange={(e) => {
+                          const courseName = e.target.value;
+                          const courseObj = allCourses.find(c => c.courseName === courseName);
+                          setNewEntry(prev => ({
+                            ...prev,
+                            course: courseName,
+                            // Auto-fill from course to avoid mismatches for students' view
+                            semester: courseObj?.semester ? String(courseObj.semester) : prev.semester,
+                            department: courseObj?.department || prev.department,
+                            instructor: (courseObj?.instructor?._id || prev.instructor)
+                          }));
+                        }}
+                        required>
                         <option value="">Select Course</option>
                         {allCourses.map(c => (
                           <option key={c._id} value={c.courseName}>{c.courseName}</option>
@@ -298,7 +327,7 @@ function TimetableNew() {
                     </div>
                     <div className="form-group">
                       <label>Semester:</label>
-                      <select value={newEntry.semester} onChange={(e) => setNewEntry({ ...newEntry, semester: e.target.value, term: e.target.value })} required>
+                      <select value={newEntry.semester} onChange={(e) => setNewEntry({ ...newEntry, semester: e.target.value })} required>
                         <option value="">Select Semester</option>
                         {[1,2,3,4,5,6,7,8].map(sem => (
                           <option key={sem} value={sem}>Semester {sem}</option>

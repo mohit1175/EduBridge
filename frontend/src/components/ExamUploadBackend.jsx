@@ -39,8 +39,7 @@ export default function ExamUploadBackend({ date, semester }) {
   const [totalMarks, setTotalMarks] = useState(20);
 
   useEffect(() => {
-    // Load teacher's assigned courses from backend
-  const loadCourses = async () => {
+    const loadCourses = async () => {
       try {
         let list = await apiClient.getCourses({ instructor: user?.id });
         // Fallbacks: department, then all
@@ -61,7 +60,7 @@ export default function ExamUploadBackend({ date, semester }) {
       }
     };
     if (user?.id) loadCourses();
-  }, [user?.id]);
+  }, [user?.id, user?.department]);
 
   // When subject changes, load students of that course for mapping
   useEffect(() => {

@@ -29,6 +29,7 @@ router.get('/', auth, async (req, res) => {
 
     const courses = await Course.find(query)
       .populate('instructor', 'name email')
+      .populate('instructors', 'name email')
       .sort({ courseName: 1 });
 
     res.json(courses);
@@ -90,11 +91,11 @@ router.put('/:id', auth, authorize('teacher_level1', 'teacher_level2'), async (r
       return res.status(403).json({ message: 'Not authorized to update this course' });
     }
 
-    const updatedCourse = await Course.findByIdAndUpdate(
+  const updatedCourse = await Course.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true, runValidators: true }
-    ).populate('instructor', 'name email');
+  ).populate('instructor', 'name email').populate('instructors','name email');
 
     res.json({
       message: 'Course updated successfully',
@@ -141,7 +142,9 @@ router.delete('/:id', auth, authorize('teacher_level1', 'teacher_level2'), async
 router.get('/:id', auth, async (req, res) => {
   try {
     const course = await Course.findById(req.params.id)
-      .populate('instructor', 'name email');
+      .populate('instructor', 'name email')
+      .populate('instructors','name email')
+      .populate('students','name email rollNumber');
 
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
@@ -302,5 +305,86 @@ router.put('/:id/instructor', auth, authorize('teacher_level1'), async (req, res
   } catch (error) {
     console.error('Update instructor error:', error);
     res.status(500).json({ message: 'Server error updating instructor' });
+  }
+});
+
+// POST /api/courses/:id/instructors - add multiple instructors
+router.post('/:id/instructors', auth, authorize('teacher_level1','admin'), async (req, res) => {
+  try {
+    const { instructorIds } = req.body;
+    if (!Array.isArray(instructorIds) || instructorIds.length === 0) {
+      return res.status(400).json({ message: 'instructorIds array is required' });
+    }
+    const validTeachers = await User.find({ _id: { $in: instructorIds }, role: { $in: ['teacher_level1','teacher_level2'] } }).select('_id');
+    const ids = validTeachers.map(t => t._id);
+    const course = await Course.findById(req.params.id);
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+    const set = new Set([...(course.instructors || []).map(id => String(id)), ...ids.map(id => String(id))]);
+    course.instructors = Array.from(set);
+    // Keep primary instructor if missing
+    if (!course.instructor && course.instructors.length) course.instructor = course.instructors[0];
+    await course.save();
+    const populated = await Course.findById(req.params.id).populate('instructor','name email').populate('instructors','name email');
+    res.json({ message: 'Instructors updated', course: populated });
+  } catch (error) {
+    console.error('Add instructors error:', error);
+    res.status(500).json({ message: 'Server error updating instructors' });
+  }
+});
+
+// DELETE /api/courses/:id/instructors/:teacherId - remove an instructor from course
+router.delete('/:id/instructors/:teacherId', auth, authorize('teacher_level1','admin'), async (req, res) => {
+  try {
+    const { id, teacherId } = req.params;
+    const course = await Course.findById(id);
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+    course.instructors = (course.instructors || []).filter(t => String(t) !== String(teacherId));
+    // If primary instructor removed, reset to first available
+    if (course.instructor && String(course.instructor) === String(teacherId)) {
+      course.instructor = course.instructors[0] || null;
+    }
+    await course.save();
+    const populated = await Course.findById(id).populate('instructor','name email').populate('instructors','name email');
+    res.json({ message: 'Instructor removed', course: populated });
+  } catch (error) {
+    console.error('Remove instructor error:', error);
+    res.status(500).json({ message: 'Server error removing instructor' });
+  }
+});
+
+// POST /api/courses/:id/students - enroll a single student
+router.post('/:id/students', auth, authorize('teacher_level1','admin'), async (req, res) => {
+  try {
+    const { studentId } = req.body;
+    if (!studentId) return res.status(400).json({ message: 'studentId is required' });
+    const course = await Course.findById(req.params.id);
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+    const student = await User.findOne({ _id: studentId, role: 'student' });
+    if (!student) return res.status(404).json({ message: 'Student not found' });
+    if (!Array.isArray(course.students)) course.students = [];
+    const exists = course.students.find(id => String(id) === String(studentId));
+    if (!exists) course.students.push(studentId);
+    await course.save();
+    const populated = await Course.findById(req.params.id).populate('students','name email rollNumber').populate('instructor','name email').populate('instructors','name email');
+    res.json({ message: 'Student enrolled', course: populated });
+  } catch (error) {
+    console.error('Enroll student error:', error);
+    res.status(500).json({ message: 'Server error enrolling student' });
+  }
+});
+
+// DELETE /api/courses/:id/students/:studentId - unenroll student
+router.delete('/:id/students/:studentId', auth, authorize('teacher_level1','admin'), async (req, res) => {
+  try {
+    const { id, studentId } = req.params;
+    const course = await Course.findById(id);
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+    course.students = (course.students || []).filter(s => String(s) !== String(studentId));
+    await course.save();
+    const populated = await Course.findById(id).populate('students','name email rollNumber').populate('instructor','name email').populate('instructors','name email');
+    res.json({ message: 'Student unenrolled', course: populated });
+  } catch (error) {
+    console.error('Unenroll student error:', error);
+    res.status(500).json({ message: 'Server error unenrolling student' });
   }
 });

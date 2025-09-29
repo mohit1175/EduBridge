@@ -1,0 +1,11 @@
+examType,subject,examDate,examTime,duration,room,totalMarks,createdByEmail
+ICA Test 1,Web Development,2025-09-04,10:00 AM,1hr,B105,40,jayashree.ravee@teacher.com
+ICA Test 2,Web Development,2025-09-25,10:00 AM,1hr,B105,40,jayashree.ravee@teacher.com
+ICA Test 1,Machine Learning,2025-09-04,10:00 AM,1hr,B105,40,omkar.mohite@teacher.com
+ICA Test 2,Machine Learning,2025-09-25,10:00 AM,1hr,B105,40,omkar.mohite@teacher.com
+ICA Test 1,Cloud Computing Lab,2025-09-04,10:00 AM,1hr,B105,40,amol.jogalekar@teacher.com
+ICA Test 2,Cloud Computing Lab,2025-09-25,10:00 AM,1hr,B105,40,amol.jogalekar@teacher.com
+ICA Test 1,Operating Systems,2025-09-04,10:00 AM,1hr,B105,40,neelam.jain@teacher.com
+ICA Test 2,Operating Systems,2025-09-25,10:00 AM,1hr,B105,40,neelam.jain@teacher.com
+ICA Test 1,Computer Networks,2025-09-04,10:00 AM,1hr,B105,40,jayashree.ravee@teacher.com
+ICA Test 2,Computer Networks,2025-09-25,10:00 AM,1hr,B105,40,jayashree.ravee@teacher.com

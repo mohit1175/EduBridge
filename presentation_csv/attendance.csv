@@ -1,0 +1,11 @@
+date,course,studentEmail,status,semester,markedByEmail
+2025-09-17,Web Development,mohit@student.com,present,5,jayashree.ravee@teacher.com
+2025-09-16,Web Development,mohit@student.com,absent,5,jayashree.ravee@teacher.com
+2025-09-15,Web Development,mohit@student.com,present,5,jayashree.ravee@teacher.com
+2025-09-14,Web Development,mohit@student.com,present,5,jayashree.ravee@teacher.com
+2025-09-13,Web Development,mohit@student.com,present,5,jayashree.ravee@teacher.com
+2025-09-17,Machine Learning,mohit@student.com,present,5,omkar.mohite@teacher.com
+2025-09-16,Machine Learning,mohit@student.com,absent,5,omkar.mohite@teacher.com
+2025-09-15,Machine Learning,mohit@student.com,present,5,omkar.mohite@teacher.com
+2025-09-14,Machine Learning,mohit@student.com,present,5,omkar.mohite@teacher.com
+2025-09-13,Machine Learning,mohit@student.com,present,5,omkar.mohite@teacher.com

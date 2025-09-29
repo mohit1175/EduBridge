@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import apiClient from '../utils/api';
 import '../styles/Courses.css';
+import '../styles/Dashboard.css';
 
 function CoursesNew() {
   const { user, isStudent, isTeacher, isHOD } = useAuth();
@@ -11,10 +12,15 @@ function CoursesNew() {
   // State for courses
   const [courses, setCourses] = useState([]);
   const [teachers, setTeachers] = useState([]);
+  const [selectedTeachers, setSelectedTeachers] = useState([]);
+  const [drawer, setDrawer] = useState({ open: false, course: null, students: [], query: '', candidates: [], busy: false });
   
   // State for filters
   const [departmentFilter, setDepartmentFilter] = useState('All');
   const [semesterFilter, setSemesterFilter] = useState('All');
+  // Pagination (fixed 5 per page)
+  const [page, setPage] = useState(1);
+  const [perPage] = useState(5);
   
   // State for creating new course
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -32,15 +38,20 @@ function CoursesNew() {
     loadData();
   }, []);
 
+  // Reset page when filters or page size change
+  useEffect(() => {
+    setPage(1);
+  }, [departmentFilter, semesterFilter, perPage]);
+
   const loadData = async () => {
     try {
       setLoading(true);
-      const [coursesResponse, teacherList] = await Promise.all([
+  const [coursesResponse, teacherList] = await Promise.all([
         apiClient.getCourses(),
         isHOD ? apiClient.getUsers({ role: 'teacher_level2', department: user?.department }) : Promise.resolve([])
       ]);
       setCourses(coursesResponse);
-      setTeachers(teacherList || []);
+  setTeachers(teacherList || []);
     } catch (error) {
       console.error('Error loading courses data:', error);
       setError('Failed to load courses data');
@@ -97,6 +108,26 @@ function CoursesNew() {
     }
   };
 
+  const handleAddInstructors = async (courseId, ids = selectedTeachers) => {
+    try {
+      if (!ids || !ids.length) return;
+      await apiClient.addCourseInstructors(courseId, ids);
+      setSelectedTeachers([]);
+      await loadData();
+    } catch (e) {
+      alert(e.message || 'Failed to add instructors');
+    }
+  };
+
+  const handleRemoveInstructor = async (courseId, teacherId) => {
+    try {
+      await apiClient.removeCourseInstructor(courseId, teacherId);
+      await loadData();
+    } catch (e) {
+      alert(e.message || 'Failed to remove instructor');
+    }
+  };
+
   // Bulk assignment upload (HOD)
   const [assignFile, setAssignFile] = useState(null);
   const [uploadResults, setUploadResults] = useState(null);
@@ -130,6 +161,57 @@ function CoursesNew() {
     URL.revokeObjectURL(url);
   };
 
+  // HOD drawer helpers
+  const openManageStudents = async (course) => {
+    try {
+      setDrawer(d => ({ ...d, open: true, course, busy: true, query: '' }));
+  const fresh = await apiClient.getCourse(course._id);
+  setDrawer(d => ({ ...d, students: fresh?.students || [], busy: false }));
+    } catch (e) {
+      alert(e.message || 'Failed to load students');
+      setDrawer(d => ({ ...d, busy: false }));
+    }
+  };
+
+  const searchCandidates = async (q) => {
+    setDrawer(d => ({ ...d, query: q }));
+    if (!q || q.length < 2) { setDrawer(d => ({ ...d, candidates: [] })); return; }
+    try {
+      // Simple filter: same department+semester students
+      const users = await apiClient.getUsers({ role: 'student', department: user?.department });
+      const lc = q.toLowerCase();
+      const out = (users || []).filter(u => (
+        (u.email?.toLowerCase().includes(lc)) || (u.name?.toLowerCase().includes(lc)) || (u.rollNumber?.toLowerCase?.().includes(lc))
+      ));
+      setDrawer(d => ({ ...d, candidates: out.slice(0, 10) }));
+    } catch (_) {}
+  };
+
+  const enrollCandidate = async (studentId) => {
+    try {
+      setDrawer(d => ({ ...d, busy: true }));
+      await apiClient.enrollStudentToCourse(drawer.course._id, studentId);
+  const fresh = await apiClient.getCourse(drawer.course._id);
+  setDrawer(d => ({ ...d, students: fresh?.students || [], candidates: [], query: '', busy: false }));
+    } catch (e) {
+      alert(e.message || 'Failed to enroll');
+      setDrawer(d => ({ ...d, busy: false }));
+    }
+  };
+
+  const unenrollStudent = async (studentId) => {
+    try {
+  if (!window.confirm('Remove this student from the course?')) return;
+      setDrawer(d => ({ ...d, busy: true }));
+      await apiClient.unenrollStudentFromCourse(drawer.course._id, studentId);
+  const fresh = await apiClient.getCourse(drawer.course._id);
+  setDrawer(d => ({ ...d, students: fresh?.students || [], busy: false }));
+    } catch (e) {
+      alert(e.message || 'Failed to unenroll');
+      setDrawer(d => ({ ...d, busy: false }));
+    }
+  };
+
   // Filter courses
   let filteredCourses = courses;
   if (isStudent) {
@@ -153,6 +235,13 @@ function CoursesNew() {
   // Get unique departments and semesters for filters
   const departments = Array.from(new Set(courses.map(course => course.department)));
   const semesters = Array.from(new Set(courses.map(course => course.semester))).sort();
+
+  // Pagination math
+  const totalPages = Math.max(1, Math.ceil((filteredCourses?.length || 0) / perPage));
+  const safePage = Math.min(page, totalPages);
+  const startIdx = (safePage - 1) * perPage;
+  const endIdx = startIdx + perPage;
+  const paginatedCourses = filteredCourses.slice(startIdx, endIdx);
 
   if (loading) {
     return (
@@ -336,7 +425,7 @@ function CoursesNew() {
             <p>No courses match your current filters.</p>
           </div>
         ) : (
-          filteredCourses.map(course => (
+          paginatedCourses.map(course => (
             <div key={course._id} className="course-card">
               <div className="course-header">
                 <h3>{course.courseName}</h3>
@@ -349,6 +438,21 @@ function CoursesNew() {
                 <p><strong>Semester:</strong> {course.semester}</p>
                 <p><strong>Credits:</strong> {course.credits}</p>
                 <p><strong>Instructor:</strong> {course.instructor?.name || 'TBA'}</p>
+                {course.instructors?.length > 0 && (
+                  <div style={{ marginTop: 6 }}>
+                    <strong>Co-Instructors:</strong>
+                    <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginTop:6 }}>
+                      {course.instructors.map(t => (
+                        <span key={t._id} style={{ background:'#eef2ff', padding:'2px 8px', borderRadius: 10 }}>
+                          {t.name}
+                          {isHOD && (
+                            <button onClick={()=>handleRemoveInstructor(course._id, t._id)} style={{ marginLeft:6, border:'none', background:'transparent', cursor:'pointer' }}>×</button>
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 {isHOD && (
                   <div className="assign-row">
                     <select defaultValue={course.instructor?._id || ''} onChange={(e)=>handleSetInstructor(course._id, e.target.value)}>
@@ -358,6 +462,31 @@ function CoursesNew() {
                       ))}
                     </select>
                     <small className="assign-hint">Change instructor from list or use Bulk Assign for Excel upload.</small>
+                  </div>
+                )}
+                {isHOD && (
+                  <div className="assign-row" style={{ marginTop: 8 }}>
+                    <label>Add Co-Instructor:</label>
+                    <select
+                      defaultValue=""
+                      onChange={(e) => {
+                        const id = e.target.value;
+                        if (!id) return;
+                        // avoid duplicates or selecting the main instructor
+                        if (course.instructor?._id === id || (course.instructors || []).some(t => t._id === id)) {
+                          e.target.value = '';
+                          return;
+                        }
+                        handleAddInstructors(course._id, [id]);
+                        // reset back to placeholder like the Instructor selector UX
+                        e.target.value = '';
+                      }}
+                    >
+                      <option value="">Select Co-Instructor</option>
+                      {teachers.map(t => (
+                        <option key={t._id} value={t._id}>{t.name}</option>
+                      ))}
+                    </select>
                   </div>
                 )}
                 
@@ -389,33 +518,111 @@ function CoursesNew() {
                     </button>
                   )
                 )}
+                {isHOD && (
+                  <button className="btn-primary" style={{ marginLeft: 8 }} onClick={()=>openManageStudents(course)}>
+                    Manage Students
+                  </button>
+                )}
               </div>
             </div>
           ))
         )}
       </div>
 
+      {/* Pager */}
+      {filteredCourses.length > 0 && totalPages > 1 && (
+        <div className="courses-pager" role="navigation" aria-label="Courses pages">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+            <button
+              key={p}
+              type="button"
+              className={`page-btn ${p === safePage ? 'active' : ''}`}
+              onClick={() => setPage(p)}
+              aria-current={p === safePage ? 'page' : undefined}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Course Statistics */}
       {filteredCourses.length > 0 && (
         <div className="course-stats">
-          <h3>Course Statistics</h3>
+          <h3 className="section-heading">Course Statistics</h3>
           <div className="stats-grid">
-            <div className="stat-card">
-              <h4>{filteredCourses.length}</h4>
-              <p>Total Courses</p>
+            <div className="stat-card blue" role="figure" aria-label="Total courses">
+              <div className="stat-value">{filteredCourses.length}</div>
+              <div className="stat-label">Total Courses</div>
             </div>
-            <div className="stat-card">
-              <h4>{Array.from(new Set(filteredCourses.map(c => c.program))).length}</h4>
-              <p>Programs</p>
+            <div className="stat-card purple" role="figure" aria-label="Programs count">
+              <div className="stat-value">{Array.from(new Set(filteredCourses.map(c => c.program))).length}</div>
+              <div className="stat-label">Programs</div>
             </div>
-            <div className="stat-card">
-              <h4>{Array.from(new Set(filteredCourses.map(c => c.semester))).length}</h4>
-              <p>Semesters</p>
+            <div className="stat-card orange" role="figure" aria-label="Semesters count">
+              <div className="stat-value">{Array.from(new Set(filteredCourses.map(c => c.semester))).length}</div>
+              <div className="stat-label">Semesters</div>
             </div>
-            <div className="stat-card">
-              <h4>{filteredCourses.reduce((sum, course) => sum + course.credits, 0)}</h4>
-              <p>Total Credits</p>
+            <div className="stat-card green" role="figure" aria-label="Total credits">
+              <div className="stat-value">{filteredCourses.reduce((sum, course) => sum + course.credits, 0)}</div>
+              <div className="stat-label">Total Credits</div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manage Students Drawer */}
+      {isHOD && drawer.open && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(15,23,42,0.35)', display:'flex', justifyContent:'flex-end', zIndex:9999 }} onClick={()=>setDrawer(d=>({...d, open:false}))}>
+          <div style={{ width:'420px', maxWidth:'92vw', height:'100%', background:'#fff', padding:16, overflowY:'auto' }} onClick={(e)=>e.stopPropagation()}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+              <h3>Manage Students – {drawer.course?.courseName}</h3>
+              <button onClick={()=>setDrawer(d=>({...d, open:false}))} className="btn-secondary">Close</button>
+            </div>
+            <div style={{ margin:'12px 0' }}>
+              <input
+                placeholder="Search by email, name, or roll…"
+                value={drawer.query}
+                onChange={(e)=>searchCandidates(e.target.value)}
+                style={{ width:'100%', padding:'10px 12px', border:'1px solid #e2e8f0', borderRadius:8 }}
+              />
+              {drawer.candidates?.length > 0 && (
+                <div style={{ marginTop:8, border:'1px solid #e2e8f0', borderRadius:8 }}>
+                  {drawer.candidates.map(u => (
+                    <div key={u._id} style={{ display:'flex', justifyContent:'space-between', padding:'8px 10px', borderBottom:'1px solid #f1f5f9' }}>
+                      <div>
+                        <div><strong>{u.name}</strong> <small>({u.email})</small></div>
+                        <div style={{ color:'#64748b', fontSize:12 }}>{u.department} • Sem {u.semester || '—'}</div>
+                      </div>
+                      <button
+                        className="btn-primary"
+                        onClick={()=>enrollCandidate(u._id)}
+                        disabled={drawer.busy || (drawer.students || []).some(s => s._id === u._id)}
+                      >
+                        {(drawer.students || []).some(s => s._id === u._id) ? 'Enrolled' : 'Enroll'}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <h4>Currently Enrolled</h4>
+            {!drawer.students?.length ? (
+              <div style={{ color:'#64748b' }}>No students enrolled yet.</div>
+            ) : (
+              <ul style={{ listStyle:'none', padding:0 }}>
+                {drawer.students.map(s => (
+                  <li key={s._id} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'8px 0', borderBottom:'1px solid #f1f5f9' }}>
+                    <div>
+                      <div><strong>{s.name}</strong> <small>({s.email})</small></div>
+                      <div style={{ color:'#64748b', fontSize:12 }}>{s.rollNumber || '—'}</div>
+                    </div>
+                    <button className="btn-danger" onClick={()=>unenrollStudent(s._id)} disabled={drawer.busy}>Remove</button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       )}

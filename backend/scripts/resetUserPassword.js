@@ -1,8 +1,3 @@
-// Utility script to reset a user's password (and optionally role)
-// Usage:
-//   node backend/scripts/resetUserPassword.js <email> <newPassword> [newRole]
-// Example:
-//   node backend/scripts/resetUserPassword.js yashvi@college.com password123 teacher_level2
 
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -29,7 +24,6 @@ async function main() {
       process.exit(1);
     }
 
-    // Update password (triggers pre-save hook to hash)
     user.password = newPassword;
 
     // Optionally normalize role

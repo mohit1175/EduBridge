@@ -1,0 +1,5 @@
+program,department,semester,subject,courseCode,credits,description
+BSc,Computer Science,3,Data Structures,CS-DS-301,4,Core data structures and algorithms in C++
+BSc,Computer Science,3,Operating Systems,CS-OS-302,4,Processes, threads and memory management
+BSc,Computer Science,3,Database Systems,CS-DB-303,4,Relational design and SQL
+BSc,Computer Science,3,Computer Networks,CS-NW-304,4,OSI model and TCP/IP

@@ -1,0 +1,11 @@
+email,name,role,department,program,semester
+hod.cs@college.edu,Dr. Kavita Rao,teacher_level1,Computer Science,MSc,1
+hod2.cs@college.edu,Dr. Manoj Kulkarni,teacher_level1,Computer Science,BSc,4
+hod3.cs@college.edu,Dr. Smita Desai,teacher_level1,Computer Science,MSc,2
+hod4.cs@college.edu,Dr. Ajay Mehta,teacher_level1,Computer Science,BSc,6
+teacher.raghav@college.edu,Raghav Iyer,teacher_level2,Computer Science,BSc,3
+teacher.neha@college.edu,Neha Joshi,teacher_level2,Computer Science,MSc,1
+teacher.priya@college.edu,Priya Shah,teacher_level2,Computer Science,BSc,5
+teacher.anil@college.edu,Anil Gupta,teacher_level2,Computer Science,MSc,2
+teacher.mohan@college.edu,Mohan Rao,teacher_level2,Computer Science,BSc,4
+teacher.sita@college.edu,Sita Devi,teacher_level2,Computer Science,MSc,1

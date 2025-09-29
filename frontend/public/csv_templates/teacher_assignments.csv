@@ -1,0 +1,4 @@
+courseCode,courseName,department,semester,credits,teacherEmail,teacherName
+CS-BSC-WD,Web Development,Computer Science,5,4,teacher1@college.com,Teacher One
+CS-BSC-ML,Machine Learning,Computer Science,5,4,teacher2@college.com,Teacher Two
+

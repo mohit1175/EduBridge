@@ -1,0 +1,3 @@
+studentEmail,course,subject,question,description,category,assignedToEmail,priority
+mohit@student.com,Data Structures and Algorithms,DSA Syllabus,Clarification on Unit 3 topics,Is AVL tree part of Unit 3?,marks,jayashree.ravee@teacher.com,medium
+mohit@student.com,Database Management Systems,Attendance,Attendance for lab counted?,Are lab sessions included in attendance calculation?,attendance,ashish.gavande@teacher.com,low

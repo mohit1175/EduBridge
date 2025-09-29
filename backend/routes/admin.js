@@ -6,6 +6,7 @@ const path = require('path');
 const { auth, authorize } = require('../middleware/auth');
 const User = require('../models/User');
 const Attendance = require('../models/Attendance');
+const AdminLog = require('../models/AdminLog');
 const Course = require('../models/Course');
 const XLSX = require('xlsx');
 
@@ -90,6 +91,41 @@ router.get('/metrics/overview', async (req, res) => {
   } catch (err) {
     console.error('Metrics error:', err);
     res.status(500).json({ message: 'Server error getting metrics' });
+  }
+});
+
+// Admin logs listing with pagination and basic filters
+// Query: page, limit, action, status
+router.get('/logs', async (req, res) => {
+  try {
+    const limit = Math.max(1, Math.min(100, Number(req.query.limit) || 10));
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const { action, status } = req.query;
+    const q = {};
+    if (action) q.action = new RegExp('^' + String(action).trim(), 'i');
+    if (status) q.status = String(status).trim();
+    const total = await AdminLog.countDocuments(q);
+    const logs = await AdminLog.find(q)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+    res.json({ logs, page, limit, total, pages: Math.max(1, Math.ceil(total / limit)) });
+  } catch (e) {
+    console.error('Admin logs error:', e);
+    res.status(500).json({ message: 'Server error getting admin logs' });
+  }
+});
+
+// Optional: delete a log by id
+router.delete('/logs/:id', async (req, res) => {
+  try {
+    const r = await AdminLog.findByIdAndDelete(req.params.id);
+    if (!r) return res.status(404).json({ message: 'Log not found' });
+    res.json({ message: 'Log deleted' });
+  } catch (e) {
+    console.error('Admin log delete error:', e);
+    res.status(500).json({ message: 'Server error deleting admin log' });
   }
 });
 

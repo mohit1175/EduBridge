@@ -25,26 +25,41 @@
 .timetable-filters select{padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;background:#fff}
 
 /* HOD create modal */
-.create-timetable-modal{position:fixed;inset:0;background:rgba(2,6,23,.55);display:flex;align-items:center;justify-content:center;z-index:50}
-.create-timetable-modal .modal-content{background:#fff;border-radius:16px;box-shadow:0 28px 80px rgba(2,6,23,.28);width:min(840px,94vw);padding:24px 28px;border:1px solid #e5e7eb}
-.create-timetable-modal .modal-header{display:flex;align-items:center;justify-content:space-between;margin:-8px 0 16px 0}
-.create-timetable-modal .modal-header h3{font-size:22px}
-.create-timetable-modal .icon-btn{border:none;background:transparent;font-size:18px;line-height:1;border-radius:8px;padding:6px 8px;cursor:pointer;color:#334155}
+.create-timetable-modal{position:fixed;inset:0;background:rgba(2,6,23,.55);display:flex;align-items:center;justify-content:center;z-index:50;
+  --tt-radius:14px;--tt-gap:16px;--tt-border:#e5e7eb;--tt-muted:#f8fafc;--tt-focus:#6366f1}
+.create-timetable-modal .modal-content{background:#fff;border-radius:var(--tt-radius);box-shadow:0 28px 80px rgba(2,6,23,.28);width:min(1120px,98vw);padding:28px 36px;border:1px solid var(--tt-border)}
+.create-timetable-modal .modal-header{display:flex;align-items:center;justify-content:space-between;margin:-6px 0 18px 0}
+.create-timetable-modal .modal-header h3{font-size:24px;letter-spacing:.2px}
+.create-timetable-modal .icon-btn{border:none;background:transparent;font-size:20px;line-height:1;border-radius:8px;padding:6px 8px;cursor:pointer;color:#334155}
 .create-timetable-modal .icon-btn:hover{background:#f1f5f9}
-.create-timetable-modal .modal-body{max-height:70vh;overflow:auto;padding-right:8px;margin-bottom:16px}
+.create-timetable-modal .modal-body{max-height:70vh;overflow-y:auto;overflow-x:hidden;padding-right:8px;margin-bottom:16px}
+.create-timetable-modal .modal-body::-webkit-scrollbar{width:8px}
+.create-timetable-modal .modal-body::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
 .create-timetable-modal h3{margin:0 0 12px 0;color:#0f172a;font-weight:800}
-.section{margin-bottom:20px}
-.section-title{font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:700}
-.create-timetable-modal .form-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.create-timetable-modal .form-row.two{grid-template-columns:repeat(2,1fr)}
-.create-timetable-modal .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.create-timetable-modal .form-group input,.create-timetable-modal .form-group select{padding:14px;border:1px solid #d1d5db;border-radius:12px;background:#fff;font-size:14px;min-height:44px}
-.create-timetable-modal .form-group input:focus,.create-timetable-modal .form-group select:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15);outline:0}
+.section{margin-bottom:20px;background:#fbfdff;border:1px solid #eef2f7;border-radius:16px;padding:16px}
+.section-title{font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;font-weight:700}
+.create-timetable-modal .form-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.create-timetable-modal .form-row.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.create-timetable-modal .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:6px;min-width:0}
+.create-timetable-modal .form-group input,
+.create-timetable-modal .form-group select{height:48px;padding:12px 14px;border:1px solid #d1d5db;border-radius:12px;background:#fff;font-size:14px;line-height:1.25;width:100%;max-width:100%;box-sizing:border-box;overflow:hidden}
+.create-timetable-modal .form-group input::placeholder{color:#9ca3af}
+.create-timetable-modal .form-group select{appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/></svg>");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:16px 16px;padding-right:34px}
+.create-timetable-modal .form-group input:hover,
+.create-timetable-modal .form-group select:hover{border-color:#cbd5e1}
+.create-timetable-modal .form-group input:focus,
+.create-timetable-modal .form-group select:focus{border-color:var(--tt-focus);box-shadow:0 0 0 3px rgba(99,102,241,.15);outline:0}
 .create-timetable-modal .form-group label{font-weight:650;color:#1f2937}
 .create-timetable-modal .form-actions{display:flex;gap:12px;justify-content:flex-end;border-top:1px solid #eef2f7;padding-top:16px;position:sticky;bottom:0;background:#fff}
-.btn-lg{padding:.9rem 1.25rem;border-radius:12px;font-weight:700}
-.days-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
-.day-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid #d1d5db;border-radius:999px;background:#fff;cursor:pointer;font-size:14px}
+.create-timetable-modal .form-actions .btn-secondary.btn-lg{background:#ef4444;border-color:#ef4444;color:#fff}
+.create-timetable-modal .form-actions .btn-secondary.btn-lg:hover{background:#dc2626;border-color:#dc2626}
+.btn-lg{padding:.95rem 1.3rem;border-radius:12px;font-weight:700}
+.days-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.day-pill{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid #d1d5db;border-radius:999px;background:#fff;cursor:pointer;font-size:14px;transition:all .15s ease}
+.day-pill:hover{border-color:#94a3b8;background:#f8fafc}
+.day-pill:focus-within{box-shadow:0 0 0 3px rgba(15,23,42,.12)}
 .day-pill input{accent-color:#0f172a}
 .day-pill.on{background:#eef2ff;border-color:#6366f1;color:#3730a3}
 .note{margin-top:6px;font-size:12px;color:#6b7280}
@@ -53,6 +68,10 @@
   .create-timetable-modal .modal-content{width:94vw;padding:16px}
   .create-timetable-modal .form-row{grid-template-columns:1fr;gap:12px}
   .create-timetable-modal .form-actions{position:static}
+}
+
+@media (max-width: 1024px){
+  .create-timetable-modal .form-row{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
 @media (max-width: 768px){

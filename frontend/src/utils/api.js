@@ -116,6 +116,30 @@ class ApiClient {
     }
   }
 
+  // Post a FormData payload (multiple files/fields)
+  async postFormData(endpoint, formData) {
+    const token = this.getAuthToken();
+    const url = `${this.baseURL}${endpoint}`;
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` })
+          // NOTE: Don't set Content-Type so browser sets proper multipart boundary
+        },
+        body: formData,
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Request failed');
+      }
+      return data;
+    } catch (error) {
+      console.error('Form POST failed:', error);
+      throw error;
+    }
+  }
+
   // Study materials
   async uploadStudyMaterial({ file, title, description, courseId }) {
     return this.uploadFile('/materials', file, { title, description, courseId });

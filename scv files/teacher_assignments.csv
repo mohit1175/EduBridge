@@ -1,0 +1,21 @@
+courseCode,courseName,department,semester,credits,teacherEmail,teacherName
+CS-DS-301,Data Structures,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-OS-302,Operating Systems,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-DB-303,Database Systems,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-NW-304,Computer Networks,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-DS-301-A,Data Structures: Arrays and Linked Lists,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-DS-301-B,Data Structures: Stacks and Queues,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-DS-301-C,Data Structures: Trees and Graphs,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-DS-301-D,Data Structures: Hash Tables and Heaps,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-OS-302-A,Operating Systems: Process Management,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-OS-302-B,Operating Systems: Concurrency and Synchronization,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-OS-302-C,Operating Systems: Memory Management,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-OS-302-D,Operating Systems: File Systems and I/O,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-DB-303-A,Database Systems: Relational Modeling and SQL,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-DB-303-B,Database Systems: Normalization and Design,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-DB-303-C,Database Systems: Transactions and Concurrency,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-DB-303-D,Database Systems: Indexing and Query Optimization,Computer Science,3,4,teacher.neha@college.edu,Neha Joshi
+CS-NW-304-A,Computer Networks: OSI and TCP/IP,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-NW-304-B,Computer Networks: Routing and Switching,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-NW-304-C,Computer Networks: Transport and Congestion Control,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer
+CS-NW-304-D,Computer Networks: Network Security and Protocols,Computer Science,3,4,teacher.raghav@college.edu,Raghav Iyer

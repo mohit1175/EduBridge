@@ -1,0 +1,32 @@
+name,email,password,role,department,rollNumber,semester
+ashish gavande,ashish.gavande@teacher.com,password123,teacher_level1,Computer Science,,
+jayashree ravee,jayashree.ravee@teacher.com,password123,teacher_level2,Computer Science,,
+omkar mohite,omkar.mohite@teacher.com,password123,teacher_level2,Computer Science,,
+amol jogalekar,amol.jogalekar@teacher.com,password123,teacher_level2,Computer Science,,
+neelam jain,neelam.jain@teacher.com,password123,teacher_level2,Computer Science,,
+Mohit,mohit@student.com,password123,student,Computer Science,STU101,5
+Yashvi,yashvi@student.com,password123,student,Computer Science,STU102,5
+Neha,neha@student.com,password123,student,Computer Science,STU103,5
+Sahaj,sahaj@student.com,password123,student,Computer Science,STU104,5
+Pratham,pratham@student.com,password123,student,Computer Science,STU105,5
+Aarav Sharma,aarav.sharma@student.com,password123,student,Computer Science,STU106,5
+Aanya Patel,aanya.patel@student.com,password123,student,Computer Science,STU107,5
+Karthik Iyer,karthik.iyer@student.com,password123,student,Computer Science,STU108,5
+Priya Singh,priya.singh@student.com,password123,student,Computer Science,STU109,5
+Rohit Verma,rohit.verma@student.com,password123,student,Computer Science,STU110,5
+Kavya Nair,kavya.nair@student.com,password123,student,Computer Science,STU111,5
+Aditya Gupta,aditya.gupta@student.com,password123,student,Computer Science,STU112,5
+Sneha Kulkarni,sneha.kulkarni@student.com,password123,student,Computer Science,STU113,5
+Varun Joshi,varun.joshi@student.com,password123,student,Computer Science,STU114,5
+Ishita Mehta,ishita.mehta@student.com,password123,student,Computer Science,STU115,5
+Nikhil Rao,nikhil.rao@student.com,password123,student,Computer Science,STU116,5
+Rutuja Deshmukh,rutuja.deshmukh@student.com,password123,student,Computer Science,STU117,5
+Aniket Patil,aniket.patil@student.com,password123,student,Computer Science,STU118,5
+Pooja Mishra,pooja.mishra@student.com,password123,student,Computer Science,STU119,5
+Tanvi Kapoor,tanvi.kapoor@student.com,password123,student,Computer Science,STU120,5
+Saurabh Chavan,saurabh.chavan@student.com,password123,student,Computer Science,STU121,5
+Ananya Pandey,ananya.pandey@student.com,password123,student,Computer Science,STU122,5
+Rahul Bansal,rahul.bansal@student.com,password123,student,Computer Science,STU123,5
+Divya Kannan,divya.kannan@student.com,password123,student,Computer Science,STU124,5
+Harshit Jain,harshit.jain@student.com,password123,student,Computer Science,STU125,5
+Super Admin,admin@college.com,password123,admin,Administration,,

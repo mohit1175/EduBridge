@@ -1,0 +1,4 @@
+student,course,examType,examName,marks,totalMarks,semester,date
+alice@student.com,Web Development,ICA,ICA Test 1,18,20,5,2025-08-01
+bob@student.com,Web Development,Internal,Assignment,17,20,5,2025-08-10
+neha@student.com,Web Development,External,Final Exam,52,60,5,2025-12-15

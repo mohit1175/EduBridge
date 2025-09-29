@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Doubts.css'; // Create this if you want to style it
 
 function Doubts() {
-  // Load from localStorage or use default
+  
   const [doubts, setDoubts] = useState(() => {
     const stored = localStorage.getItem('doubts');
     return stored ? JSON.parse(stored) : [

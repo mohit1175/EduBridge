@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import '../styles/Login.css';
+import logo from './logoo.png';
 
 // Demo users for quick testing (matches seeded accounts)
 const demoUsers = [
+  { email: 'admin@college.com', password: 'password123', role: 'admin', name: 'Super Admin' },
   { email: 'ashish.gavande@teacher.com', password: 'password123', role: 'teacher_level1', name: 'ashish gavande' },
   { email: 'jayashree.ravee@teacher.com', password: 'password123', role: 'teacher_level2', name: 'jayashree ravee' },
   { email: 'omkar.mohite@teacher.com', password: 'password123', role: 'teacher_level2', name: 'omkar mohite' },
@@ -112,7 +114,7 @@ function Login() {
     <div className="auth-hero">
       <div className="auth-card">
         <div className="auth-badge">
-          
+          <img src={logo} alt="EduBridge" className="auth-logo" />
         </div>
         <h2 className="auth-title">EduBridge</h2>
         <p className="auth-sub">Sign in with email</p>

@@ -1,0 +1,6 @@
+student,course,examType,examName,marks,totalMarks,semester,date
+Anaya Sharma,BSc CS Sem 3 - Data Structures,ICA,ICA Test 1,17,20,3,2025-08-10
+Arjun Mehta,BSc CS Sem 3 - Data Structures,ICA,ICA Test 1,15,20,3,2025-08-10
+Rhea Patel,BSc CS Sem 3 - Operating Systems,Internal,Assignment,18,20,3,2025-09-01
+Vihaan Kapoor,BSc CS Sem 3 - Database Systems,External,Final Exam,48,60,3,2025-12-15
+Isha Verma,BSc CS Sem 3 - Computer Networks,ICA,ICA Test 2,19,20,3,2025-09-22

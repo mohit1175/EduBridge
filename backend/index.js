@@ -13,6 +13,7 @@ const courseRoutes = require('./routes/courses');
 const timetableRoutes = require('./routes/timetable');
 const adminRoutes = require('./routes/admin');
 const materialsRoutes = require('./routes/materials');
+const noticesRoutes = require('./routes/notices');
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/timetable', timetableRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/materials', materialsRoutes);
+app.use('/api/notices', noticesRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

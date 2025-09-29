@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import apiClient from '../utils/api';
 import '../styles/Attendance.css';
@@ -25,12 +25,7 @@ function AttendanceNew() {
   const [marking, setMarking] = useState({});
   const [markingLoading, setMarkingLoading] = useState(false);
 
-  // Load data on component mount
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       const [attendanceResponse, coursesResponse, statsResponse] = await Promise.all([
@@ -42,13 +37,13 @@ function AttendanceNew() {
       setAttendanceData(attendanceResponse);
       setCourses(coursesResponse);
       // Auto-select first course for teachers/HOD to streamline marking
-      if ((isTeacher || isHOD) && coursesResponse?.length && !selectedCourseId) {
+  if ((isTeacher || isHOD) && coursesResponse?.length && !selectedCourseId) {
         setSelectedCourseId(coursesResponse[0]._id);
       }
       setStats(statsResponse.overall || { total: 0, present: 0, absent: 0, late: 0 });
 
       // Load students for selected course for teachers/HOD
-      if ((isTeacher || isHOD) && selectedCourseId) {
+    if ((isTeacher || isHOD) && selectedCourseId) {
         try {
           const list = await apiClient.getCourseStudents(selectedCourseId);
           setStudents(list);
@@ -62,7 +57,9 @@ function AttendanceNew() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isTeacher, isHOD, selectedCourseId, user.id]);
+
+  useEffect(() => { loadData(); }, [loadData]);
 
   const selectedCourse = useMemo(
     () => courses.find(c => c._id === selectedCourseId),
@@ -86,7 +83,7 @@ function AttendanceNew() {
       });
 
       // Reload data
-      await loadData();
+  await loadData();
       setMarking({ ...marking, [studentId]: status });
     } catch (error) {
       console.error('Error marking attendance:', error);
@@ -238,23 +235,19 @@ function AttendanceNew() {
     { name: 'Late', value: filteredSummary.late, color: '#f59e0b' }
   ];
 
-  const lineData = filteredAttendance
-    .reduce((acc, record) => {
+  // Simpler trend: daily Present percentage (0-100)
+  const rateLineData = useMemo(() => {
+    const byDate = {};
+    for (const record of filteredAttendance) {
       const date = new Date(record.date).toLocaleDateString();
-      const existing = acc.find(item => item.date === date);
-      if (existing) {
-        existing[record.status] = (existing[record.status] || 0) + 1;
-      } else {
-        acc.push({
-          date,
-          present: record.status === 'present' ? 1 : 0,
-          absent: record.status === 'absent' ? 1 : 0,
-          late: record.status === 'late' ? 1 : 0
-        });
-      }
-      return acc;
-    }, [])
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+      if (!byDate[date]) byDate[date] = { present: 0, total: 0 };
+      if (record.status === 'present') byDate[date].present += 1;
+      byDate[date].total += 1;
+    }
+    return Object.entries(byDate)
+      .map(([date, v]) => ({ date, rate: v.total ? Math.round((v.present / v.total) * 100) : 0 }))
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+  }, [filteredAttendance]);
 
   if (loading) {
     return (
@@ -372,18 +365,16 @@ function AttendanceNew() {
             </ResponsiveContainer>
           </div>
 
-          {lineData.length > 0 && (
+          {rateLineData.length > 0 && (
             <div className="chart-container">
-              <h3>Attendance Trend</h3>
+              <h3>{isStudent ? "Your Attendance % Trend" : "Attendance % Trend"}</h3>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={lineData}>
+                <LineChart data={rateLineData}>
                   <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="present" stroke="#10b981" strokeWidth={2} />
-                  <Line type="monotone" dataKey="absent" stroke="#ef4444" strokeWidth={2} />
-                  <Line type="monotone" dataKey="late" stroke="#f59e0b" strokeWidth={2} />
+                  <YAxis domain={[0, 100]} ticks={[0,25,50,75,100]} unit="%" />
+                  <Tooltip formatter={(value) => `${value}%`} />
+                  {/* Single, simple line showing % Present */}
+                  <Line type="monotone" dataKey="rate" name="Present %" stroke="#10b981" strokeWidth={3} dot={{ r: 2 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

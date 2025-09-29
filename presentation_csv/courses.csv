@@ -1,0 +1,8 @@
+courseName,courseCode,department,semester,credits,program,description,instructorEmail,hodEmail
+Web Development,CS-BSC-WD,Computer Science,5,4,BSc,Frontend and backend fundamentals with projects,jayashree.ravee@teacher.com,ashish.gavande@teacher.com
+Machine Learning,CS-BSC-ML,Computer Science,5,4,BSc,Supervised, unsupervised learning and model evaluation,omkar.mohite@teacher.com,ashish.gavande@teacher.com
+Cloud Computing Lab,CS-BSC-CCLAB,Computer Science,5,2,BSc,Hands-on cloud lab exercises,amol.jogalekar@teacher.com,ashish.gavande@teacher.com
+Operating Systems,CS-BSC-OS,Computer Science,5,4,BSc,Processes, threads, scheduling, memory and file systems,neelam.jain@teacher.com,ashish.gavande@teacher.com
+Computer Networks,CS-BSC-CN,Computer Science,5,4,BSc,OSI model, TCP/IP, routing and network security,jayashree.ravee@teacher.com,ashish.gavande@teacher.com
+Artificial Intelligence,CS-MSC-AI,Computer Science,2,4,MSc,AI search, knowledge representation, planning,omkar.mohite@teacher.com,ashish.gavande@teacher.com
+Advanced DBMS,CS-MSC-ADBMS,Computer Science,2,4,MSc,Transactions, indexing, query optimization,amol.jogalekar@teacher.com,ashish.gavande@teacher.com

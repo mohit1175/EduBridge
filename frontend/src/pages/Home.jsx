@@ -1,7 +1,7 @@
-// src/pages/Home.jsx
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import Dashboard from '../components/Dashboard';
 import '../styles/Home.css';
 
@@ -15,9 +15,12 @@ function Home() {
     role === 'admin' ? 'dashboard-admin' : '';
 
   return (
-    <div className={roleClass} style={{ minHeight: '100vh' }}>
+    <div className={roleClass} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
-      <Dashboard />
+      <main style={{ flex: '1 0 auto' }}>
+        <Dashboard />
+      </main>
+      <Footer />
     </div>
   );
 }

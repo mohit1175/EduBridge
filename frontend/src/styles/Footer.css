@@ -1,0 +1,25 @@
+/* Footer styled to match Navbar tone per role */
+.footer {
+  padding: 10px 16px;
+  color: #fff;
+  background: #60a5fa; /* match navbar-admin default */
+  border-top: none;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; gap: 6px; text-align: center; }
+.footer-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; }
+.footer .label { color: #ffffff; }
+.footer-link { color: #ffffff; text-decoration: none; font-weight: 600; }
+.footer-link:hover { text-decoration: underline; }
+.sep { opacity: .8; }
+.dot { margin: 0 4px; opacity: .9; }
+
+/* Role color stripes (match Navbar background colors) */
+.footer-student { background-color: #60a5fa; }
+.footer-teacher { background-color: #60a5fa; }
+.footer-hod     { background-color: #60a5fa; }
+.footer-admin   { background-color: #60a5fa; }
+
+@media (max-width: 640px) {
+  .footer { padding: 12px; }
+  .footer-row { gap: 6px; }
+}

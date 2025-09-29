@@ -1,0 +1,7 @@
+course,day,startTime,endTime,room,semester,program,department,instructorEmail
+Machine Learning,Monday,07:00,08:00,CS Lab,5,BSc,Computer Science,omkar.mohite@teacher.com
+Web Development,Monday,09:00,10:00,CS Lab,5,BSc,Computer Science,jayashree.ravee@teacher.com
+Advanced DBMS,Tuesday,09:00,10:00,CS Lab,2,BSc,Computer Science,amol.jogalekar@teacher.com
+Artificial Intelligence,Wednesday,11:00,12:00,CS Lab,2,BSc,Computer Science,omkar.mohite@teacher.com
+Operating Systems,Thursday,10:00,11:00,B204,5,BSc,Computer Science,neelam.jain@teacher.com
+Computer Networks,Friday,11:00,12:00,B206,5,BSc,Computer Science,jayashree.ravee@teacher.com

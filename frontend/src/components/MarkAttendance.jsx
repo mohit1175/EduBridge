@@ -2,9 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import apiClient from '../utils/api';
 import '../styles/MarkAttendance.css';
-
-// Simple, in-class marking UI for teacher level 2
-// Props (optional): course, students, date, onChangeDate, onSubmitted
 function MarkAttendance({ course, courses = [], selectedCourseId, onChangeCourse, students: inputStudents, date: inputDate, onChangeDate, onSubmitted }) {
   const { isTeacher, isHOD } = useAuth();
   const [date, setDate] = useState(inputDate || new Date().toISOString().split('T')[0]);
@@ -80,7 +77,6 @@ function MarkAttendance({ course, courses = [], selectedCourseId, onChangeCourse
         <div className="ma-toolbar-left">
           <span className="ma-title">Mark Attendance</span>
           <div className="ma-sep" />
-          {/* Subject dropdown (optional) */}
           {Array.isArray(courses) && courses.length > 0 && typeof onChangeCourse === 'function' && (
             <label className="ma-subject">
               Subject
@@ -111,7 +107,7 @@ function MarkAttendance({ course, courses = [], selectedCourseId, onChangeCourse
       </div>
 
       <div className="ma-table-wrap">
-        {(!students || students.length === 0) ? (
+  {(!students || students.length === 0) ? (
           <div style={{ padding: 16, color: '#6b7280' }}>
             No students found for this course. This list shows students matching the course department and semester.
             Try selecting a different course.

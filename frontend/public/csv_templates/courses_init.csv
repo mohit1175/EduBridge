@@ -1,0 +1,16 @@
+program,department,semester,subject,courseCode,credits,description
+BSc,Computer Science,1,Python,CS-101,4,Intro to Python
+BSc,Computer Science,1,C Programming,CS-102,4,Intro to C
+BSc,Computer Science,1,Computer Networks,CS-103,4,Basics of Networks
+BSc,Computer Science,2,Data Structures,CS-201,4,DS with C
+BSc,Computer Science,2,Operating Systems,CS-202,4,OS Concepts
+BSc,Computer Science,2,Database Systems,CS-203,4,Intro to DBMS
+BSc,Computer Science,3,Sanskrit Coding,CS-301,4,Interdisciplinary
+BSc,Computer Science,3,Java,CS-302,4,Core Java
+BSc,Computer Science,4,Advanced Java,CS-401,4,Advanced topics in Java
+BSc,Computer Science,4,Machine Learning,CS-402,4,ML Basics
+BSc,Computer Science,4,DBMS,CS-403,4,Advanced DBMS
+MSc,Data Science,1,Foundations of DS,DS-101,4,Foundations
+MSc,Data Science,2,Applied Stats,DS-201,4,Stats
+MSc,AI/ML,1,AI Principles,AI-101,4,Principles
+MSc,AI/ML,2,ML Systems,AI-201,4,Systems

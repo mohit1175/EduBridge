@@ -1,0 +1,26 @@
+studentEmail,course,examType,examName,marks,totalMarks,date,semester,uploadedByEmail
+mohit@student.com,Web Development,ICA,ICA Test 1,35,40,2025-09-04,5,jayashree.ravee@teacher.com
+yashvi@student.com,Web Development,ICA,ICA Test 1,32,40,2025-09-04,5,jayashree.ravee@teacher.com
+neha@student.com,Web Development,ICA,ICA Test 1,29,40,2025-09-04,5,jayashree.ravee@teacher.com
+sahaj@student.com,Web Development,ICA,ICA Test 1,27,40,2025-09-04,5,jayashree.ravee@teacher.com
+pratham@student.com,Web Development,ICA,ICA Test 1,30,40,2025-09-04,5,jayashree.ravee@teacher.com
+mohit@student.com,Machine Learning,ICA,ICA Test 1,33,40,2025-09-04,5,omkar.mohite@teacher.com
+yashvi@student.com,Machine Learning,ICA,ICA Test 1,31,40,2025-09-04,5,omkar.mohite@teacher.com
+neha@student.com,Machine Learning,ICA,ICA Test 1,28,40,2025-09-04,5,omkar.mohite@teacher.com
+sahaj@student.com,Machine Learning,ICA,ICA Test 1,26,40,2025-09-04,5,omkar.mohite@teacher.com
+pratham@student.com,Machine Learning,ICA,ICA Test 1,29,40,2025-09-04,5,omkar.mohite@teacher.com
+mohit@student.com,Cloud Computing Lab,ICA,ICA Test 1,34,40,2025-09-04,5,amol.jogalekar@teacher.com
+yashvi@student.com,Cloud Computing Lab,ICA,ICA Test 1,30,40,2025-09-04,5,amol.jogalekar@teacher.com
+neha@student.com,Cloud Computing Lab,ICA,ICA Test 1,27,40,2025-09-04,5,amol.jogalekar@teacher.com
+sahaj@student.com,Cloud Computing Lab,ICA,ICA Test 1,25,40,2025-09-04,5,amol.jogalekar@teacher.com
+pratham@student.com,Cloud Computing Lab,ICA,ICA Test 1,28,40,2025-09-04,5,amol.jogalekar@teacher.com
+mohit@student.com,Operating Systems,ICA,ICA Test 1,32,40,2025-09-04,5,neelam.jain@teacher.com
+yashvi@student.com,Operating Systems,ICA,ICA Test 1,30,40,2025-09-04,5,neelam.jain@teacher.com
+neha@student.com,Operating Systems,ICA,ICA Test 1,29,40,2025-09-04,5,neelam.jain@teacher.com
+sahaj@student.com,Operating Systems,ICA,ICA Test 1,26,40,2025-09-04,5,neelam.jain@teacher.com
+pratham@student.com,Operating Systems,ICA,ICA Test 1,28,40,2025-09-04,5,neelam.jain@teacher.com
+mohit@student.com,Computer Networks,ICA,ICA Test 1,31,40,2025-09-04,5,jayashree.ravee@teacher.com
+yashvi@student.com,Computer Networks,ICA,ICA Test 1,29,40,2025-09-04,5,jayashree.ravee@teacher.com
+neha@student.com,Computer Networks,ICA,ICA Test 1,27,40,2025-09-04,5,jayashree.ravee@teacher.com
+sahaj@student.com,Computer Networks,ICA,ICA Test 1,25,40,2025-09-04,5,jayashree.ravee@teacher.com
+pratham@student.com,Computer Networks,ICA,ICA Test 1,28,40,2025-09-04,5,jayashree.ravee@teacher.com

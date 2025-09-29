@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import '../styles/Exams.css';
 import '../styles/StudyMaterials.css';
 import apiClient from '../utils/api';
@@ -20,7 +20,7 @@ function StudyMaterials() {
 
   const isUploader = isTeacher || isHOD;
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       const [courseList, materialList] = await Promise.all([
@@ -36,9 +36,9 @@ function StudyMaterials() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isStudent, isHOD, user?.department, user?.semester, user?._id]);
 
-  useEffect(() => { loadData(); /* eslint-disable-next-line */ }, []);
+  useEffect(() => { loadData(); }, [loadData]);
 
   const courseMap = useMemo(() => {
     const m = {}; (courses || []).forEach(c => m[c._id] = c); return m;

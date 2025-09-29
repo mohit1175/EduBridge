@@ -1,0 +1,4 @@
+email,name,role,department,semester
+hod1@college.com,HOD One,teacher_level1,Computer Science,
+teacher1@college.com,Teacher One,teacher_level2,Computer Science,
+admin1@college.com,Admin One,admin,,

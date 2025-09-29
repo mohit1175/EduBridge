@@ -1,0 +1,21 @@
+program,department,semester,subject,courseCode,credits,description
+BSc,Computer Science,3,Data Structures,CS-DS-301,4,Core data structures and algorithms in C++
+BSc,Computer Science,3,Operating Systems,CS-OS-302,4,"Processes, threads and memory management"
+BSc,Computer Science,3,Database Systems,CS-DB-303,4,Relational design and SQL
+BSc,Computer Science,3,Computer Networks,CS-NW-304,4,OSI model and TCP/IP
+BSc,Computer Science,3,Data Structures: Arrays and Linked Lists,CS-DS-301-A,4,"Arrays, linked lists, and pointer manipulation in C++"
+BSc,Computer Science,3,Data Structures: Stacks and Queues,CS-DS-301-B,4,"Stack and queue ADTs, amortized analysis"
+BSc,Computer Science,3,Data Structures: Trees and Graphs,CS-DS-301-C,4,"BSTs, AVL, heaps, and graph traversal (BFS/DFS)"
+BSc,Computer Science,3,Data Structures: Hash Tables and Heaps,CS-DS-301-D,4,"Hash functions, collision resolution, priority queues"
+BSc,Computer Science,3,Operating Systems: Process Management,CS-OS-302-A,4,"Process lifecycle and CPU scheduling algorithms"
+BSc,Computer Science,3,Operating Systems: Concurrency and Synchronization,CS-OS-302-B,4,"Threads, mutexes, semaphores, deadlocks"
+BSc,Computer Science,3,Operating Systems: Memory Management,CS-OS-302-C,4,"Paging, segmentation, and virtual memory"
+BSc,Computer Science,3,Operating Systems: File Systems and I/O,CS-OS-302-D,4,"File system design and disk scheduling"
+BSc,Computer Science,3,Database Systems: Relational Modeling and SQL,CS-DB-303-A,4,"ER modeling and SQL DDL/DML"
+BSc,Computer Science,3,Database Systems: Normalization and Design,CS-DB-303-B,4,"Normal forms and schema design"
+BSc,Computer Science,3,Database Systems: Transactions and Concurrency,CS-DB-303-C,4,"ACID properties, locking, isolation levels"
+BSc,Computer Science,3,Database Systems: Indexing and Query Optimization,CS-DB-303-D,4,"B+ trees, query plans, and tuning"
+BSc,Computer Science,3,Computer Networks: OSI and TCP/IP,CS-NW-304-A,4,"Layered architecture, addressing, ARP"
+BSc,Computer Science,3,Computer Networks: Routing and Switching,CS-NW-304-B,4,"IP routing, OSPF/BGP, VLANs"
+BSc,Computer Science,3,Computer Networks: Transport and Congestion Control,CS-NW-304-C,4,"TCP/UDP, flow and congestion control"
+BSc,Computer Science,3,Computer Networks: Network Security and Protocols,CS-NW-304-D,4,"TLS, firewalls, VPNs, and basic cryptography"

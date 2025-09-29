@@ -128,7 +128,7 @@ function ExamsNew() {
     const credits = course.credits || 0;
 
     const icaAll = results.filter(r =>
-      r.student._id === studentId &&
+      String(r.student && (r.student._id || r.student.id)) === String(studentId) &&
       r.course === courseName &&
       r.examType === 'ICA'
     );
@@ -177,7 +177,8 @@ function ExamsNew() {
   // Filter results based on user role and filters
   let filteredResults = results;
   if (isStudent) {
-    filteredResults = results.filter(r => r.student._id === user._id);
+    // user.id is the authenticated user's identifier (not _id)
+    filteredResults = results.filter(r => String(r.student && (r.student._id || r.student.id)) === String(user.id));
   }
   if (courseFilter !== 'All') {
     filteredResults = filteredResults.filter(r => r.course === courseFilter);
@@ -617,7 +618,7 @@ function ExamsNew() {
           <h3>Internal Marks Summary</h3>
           <div className="internal-grid">
             {Array.from(new Set(filteredResults.map(r => r.course))).map(course => {
-              const internal = calculateInternalMarks(user._id, course);
+              const internal = calculateInternalMarks(user.id, course);
               if (!internal) return null;
               return (
                 <div key={course} className="internal-card">

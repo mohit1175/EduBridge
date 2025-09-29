@@ -2,7 +2,8 @@
 
 /* Glass card */
 .auth-card { width: 420px; background: rgba(255,255,255,0.78); border: 1px solid rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 20px; padding: 28px; box-shadow: 0 12px 40px rgba(0,0,0,0.08); text-align: center; }
-.auth-badge { width: 56px; height: 56px; border-radius: 14px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center; margin: -46px auto 12px; }
+.auth-badge { width: 56px; height: 56px; border-radius: 14px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center; margin: -46px auto 12px; overflow:hidden; }
+.auth-logo { width: 80px; height: 60px; object-fit: contain; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05)); }
 .auth-title { margin: 6px 0 6px; color: #1f2937; font-weight: 700; font-size: 24px; }
 .auth-sub { margin: 0 0 14px; color: #6b7280; font-size: 13px; }
 

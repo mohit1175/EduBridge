@@ -22,9 +22,14 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // CORS configuration with multiple origins support
+const normalizeOrigin = (o) => (o || '')
+  .trim()
+  .replace(/\/$/, '') // remove trailing slash
+  .toLowerCase();
+
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_URL || 'http://localhost:3001')
   .split(',')
-  .map(o => o.trim())
+  .map(normalizeOrigin)
   .filter(Boolean);
 
 console.log('CORS allowed origins:', allowedOrigins);
@@ -33,7 +38,8 @@ app.use(cors({
   origin: function (origin, callback) {
     // Allow non-browser requests or same-origin (no Origin header)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
+    const norm = normalizeOrigin(origin);
+    if (allowedOrigins.includes(norm)) return callback(null, true);
     return callback(new Error(`CORS blocked for origin: ${origin}`));
   },
   credentials: true,
